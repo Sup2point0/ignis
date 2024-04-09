@@ -1,5 +1,5 @@
 import suptools as sp
 
-from ygo_api import link
+import ygo
 
-link.save_cards_data({"test": "sup"})
+ygo.save_cards_data({"test": "sup"})
