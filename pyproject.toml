@@ -1,0 +1,11 @@
+[project]
+name = "ignis"
+description = ""
+readme = "README.md"
+authors = [{name = "Sup#2.0"}]
+# license = {file = "LICENSE"}
+requires-python = ">= 3.10"
+dependencies = [
+  "requests",
+]
+keywords = []
