@@ -1,0 +1,3 @@
+[submodule "suptools"]
+	path = suptools
+	url = https://github.com/Sup2point0/suptools.git
