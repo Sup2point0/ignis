@@ -23,7 +23,7 @@ def save_cards_data(data: dict):
   with open("../assets/data/data.json", "r+") as file:
     existing = json.load(file)
     existing.update(data)
-    sp.io.overwrite(file, json.dumps(existing))
+    sp.io.overwrite(file, json.dumps(existing, indent = 2))
 
 
 def save_cards_images(data: dict):

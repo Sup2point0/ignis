@@ -2,4 +2,7 @@ import suptools as sp
 
 import ygo
 
-ygo.save_cards_data({"test": "sup"})
+with open("../assets/data/cards-data.json", "r+") as file:
+  sp.io.restructure_json(file)
+
+print("STATUS: DONE!")
