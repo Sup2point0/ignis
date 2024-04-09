@@ -5,7 +5,7 @@ import requests
 import suptools as sp
 
 
-def get_cards_data(**kwargs):
+def get_cards_data(**kwargs) -> dict:
   request = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
   if kwargs:
     request += "?" + "&".join(f"{key}={val}" for key, val in kwargs.items())
@@ -24,3 +24,12 @@ def save_cards_data(data: dict):
     existing = json.load(file)
     existing.update(data)
     sp.io.overwrite(file, json.dumps(existing))
+
+
+def save_cards_images(data: dict):
+  pass
+
+
+def update_cards_data():
+  data = get_cards_data()
+  save_cards_data(data)
