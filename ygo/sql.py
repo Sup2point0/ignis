@@ -16,8 +16,11 @@ def query(name: str) -> str:
 
 def refresh():
   with closing(sqlite.connect(ROUTE)) as ctx:
-    ctx.execute(query("refresh"))
+    with ctx:
+      ctx.execute(query("refresh"))
 
 
 def update_cards_data(cards: list):
-  raise NotImplementedError()
+  with closing(sqlite.connect(ROUTE)) as ctx:
+    with ctx:
+      ctx.executemany(query("update-monsters"), (card.as_json() for card in cards))
