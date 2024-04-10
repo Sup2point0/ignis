@@ -28,3 +28,12 @@ class Card:
       art = api.get_card_art(data["card_images"]["image_url"]),
       **kwargs
     )
+
+  def as_dict(self) -> dict:
+    '''Extract the `dict` representation of a card.'''
+
+    return {
+      "id": self.id,
+      "name": self.name,
+      "art": self.art,
+    }
