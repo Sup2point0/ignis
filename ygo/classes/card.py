@@ -15,10 +15,12 @@ class Card:
     self.name = name
     self.art = art
 
-  @ staticmethod
-  def from_json(data: dict) -> Card:
-    return Card(
+  @ classmethod
+  def from_dict(cls, data: dict) -> Card:
+    '''Create a card using data from a `dict`.'''
+    
+    return cls(
       id = data["id"],
       name = data["name"],
-      art = api.get_card_art(data["card_images"]["image_url"])
+      art = api.get_card_art(data["card_images"]["image_url"]),
     )
