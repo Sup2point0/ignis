@@ -22,3 +22,12 @@ class MonsterCard(Card):
       race = data["race"].lower(),
       attribute = data["attribute"].upper(),
     )
+
+  def as_dict(self) -> dict:
+    '''Extract the `dict` representation of a monster card.'''
+
+    return {
+      **super().as_dict(),
+      "race": self.race,
+      "attribute": self.attribute,
+    }
