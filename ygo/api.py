@@ -26,8 +26,8 @@ def get_card_art(id: int) -> requests.Response:
 
 
 def save_cards_data(data: dict):
-  cards = [link.json_to_card(each) each in data]
-  sql.update_cards_data(data)
+  cards = [link.json_to_card(each) for each in data]
+  sql.update_cards_data(cards)
 
 
 def update_cards_data():

@@ -17,3 +17,7 @@ def query(name: str) -> str:
 def refresh():
   with closing(sqlite.connect(ROUTE)) as ctx:
     ctx.execute(query("refresh"))
+
+
+def update_cards_data(cards: list):
+  raise NotImplementedError()

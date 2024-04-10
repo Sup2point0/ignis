@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from ..classes import Card
 
 
@@ -11,7 +13,7 @@ class MonsterCard(Card):
   ):
     super().__init__(*args, **kwargs)
 
-    self.type = type
+    self.race = race
     self.attribute = attribute
 
   @ staticmethod
