@@ -1,8 +1,8 @@
 from .classes import Card, MonsterCard
 
 
-def json_to_card(data: dict) -> Card:
-    '''Extract data from JSON into a `Card` object.'''
+def json_to_card(data: dict) -> Card | MonsterCard:
+    '''Extract data from JSON into a `Card` (or a subclass) object.'''
 
     type = data["type"].lower()
     if "monster" in type:
