@@ -1,4 +1,4 @@
-from .card import Card
+from ..classes import Card
 
 
 class MonsterCard(Card):

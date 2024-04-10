@@ -1,18 +1,24 @@
 from __future__ import annotations
 
+from .. import api
+
 
 class Card:
   '''Represents any card with an unspecified type.'''
 
   def __init__(self,
     id: int,
-    card_name: str,
-    image_filename: str,
+    name: str,
+    art: bytes,
   ):
     self.id = id
-    self.card_name = card_name
-    self.image_filename = image_filename
+    self.name = name
+    self.art = art
 
   @ staticmethod
   def from_json(data: dict) -> Card:
-    '''Extract data from JSON into a `Card` object.'''
+    return Card(
+      id = data["id"],
+      name = data["name"],
+      art = api.get_card_art(data["card_images"]["image_url"])
+    )
