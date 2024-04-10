@@ -26,6 +26,12 @@ def save_cards_data(data: dict):
     sp.io.overwrite(file, json.dumps(existing, indent = 2))
 
 
+def get_card_art(id: int) -> requests.Response:
+  '''Get the art for a card given its ID.'''
+
+  return requests.get(f"https://images.ygoprodeck.com/images/cards_cropped/{id}.jpg")
+
+
 def save_cards_images(data: dict):
   pass
 
