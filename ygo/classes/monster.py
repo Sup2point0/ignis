@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from ..classes import Card
+from . import card
+
+
+Card = card.Card
 
 
 class MonsterCard(Card):
