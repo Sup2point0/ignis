@@ -2,7 +2,7 @@ import json
 
 import requests
 
-import suptools as sp
+from . import link, sql
 
 
 def get_cards_data(**kwargs) -> dict:
@@ -19,21 +19,15 @@ def get_cards_data(**kwargs) -> dict:
     raise Exception(f"status {status}")
 
 
-def save_cards_data(data: dict):
-  with open("../assets/data/data.json", "r+") as file:
-    existing = json.load(file)
-    existing.update(data)
-    sp.io.overwrite(file, json.dumps(existing, indent = 2))
-
-
 def get_card_art(id: int) -> requests.Response:
   '''Get the art for a card given its ID.'''
 
   return requests.get(f"https://images.ygoprodeck.com/images/cards_cropped/{id}.jpg")
 
 
-def save_cards_images(data: dict):
-  pass
+def save_cards_data(data: dict):
+  cards = [link.json_to_card(each) each in data]
+  sql.update_cards_data(data)
 
 
 def update_cards_data():
