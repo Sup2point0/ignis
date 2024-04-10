@@ -15,12 +15,16 @@ class Card:
     self.name = name
     self.art = art
 
-  @ classmethod
-  def from_dict(cls, data: dict) -> Card:
+  @ staticmethod
+  def from_dict(data: dict, cls = None, **kwargs) -> Card:
     '''Create a card using data from a `dict`.'''
+
+    if cls is None:
+      cls = Card
     
     return cls(
       id = data["id"],
       name = data["name"],
       art = api.get_card_art(data["card_images"]["image_url"]),
+      **kwargs
     )
