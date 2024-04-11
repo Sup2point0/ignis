@@ -8,7 +8,7 @@ ROUTE = "../assets/data/cards-data.db"
 def query(name: str) -> str:
   '''Get a particular query stored in `ygo/queries/`.'''
 
-  with open(f"../ygo/queries/{name}.sql") as file:
+  with open(f"../ygo/queries/{name}.sql", "r") as file:
     text = file.read()
 
   return text

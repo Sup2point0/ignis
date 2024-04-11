@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import suptools as sup
 from . import card
 
 
@@ -21,7 +22,7 @@ class MonsterCard(Card):
   ):
     super().__init__(*args, **kwargs)
 
-    sp.init(self, kind, race, attribute, level, atks, defs, pend)
+    sup.init(self, kind, race, attribute, level, atks, defs, pend)
 
   @ staticmethod
   def from_dict(data: dict) -> MonsterCard:
@@ -31,8 +32,3 @@ class MonsterCard(Card):
       race = data["race"].lower(),
       attribute = data["attribute"].upper(),
     )
-
-  def as_dict(self) -> dict:
-    '''Extract the `dict` representation of a monster card.'''
-
-    return sp.to_dict(self)

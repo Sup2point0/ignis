@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import suptools as sup
 from .. import api
 
 
@@ -11,9 +12,7 @@ class Card:
     name: str,
     art: bytes,
   ):
-    self.id = id
-    self.name = name
-    self.art = art
+    sup.init(id, name, art)
 
   @ staticmethod
   def from_dict(data: dict, cls = None, **kwargs) -> Card:
@@ -25,15 +24,11 @@ class Card:
     return cls(
       id = data["id"],
       name = data["name"],
-      art = api.get_card_art(data["card_images"]["image_url"]),
+      art = api.get_card_art(data["card_images"]["image_url"]).raw,
       **kwargs
     )
 
   def as_dict(self) -> dict:
     '''Extract the `dict` representation of a card.'''
 
-    return {
-      "id": self.id,
-      "name": self.name,
-      "art": self.art,
-    }
+    return vars(self)
