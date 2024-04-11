@@ -3,7 +3,7 @@ INSERT INTO cards VALUES(
   :name,
   :art,
   :type,
-  :frame,
+  :kind,
   :race,
   :attribute,
   :lvl,
