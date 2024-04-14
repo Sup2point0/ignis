@@ -5,7 +5,11 @@ def json_to_card(data: dict) -> Card | MonsterCard:
     '''Extract data from JSON into a `Card` (or a subclass) object.'''
 
     type = data["type"].lower()
-    if "monster" in type:
-      return MonsterCard.from_json(data)
-    else:
-      return Card.from_json(data)
+    
+    try:
+      if "monster" in type:
+        return MonsterCard.from_dict(data)
+      else:
+        return Card.from_dict(data)
+    except:
+       return None 

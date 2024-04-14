@@ -12,7 +12,7 @@ class Card:
     name: str,
     art: bytes,
   ):
-    sup.init(id, name, art)
+    sup.init(self, id = id, name = name, art = art)
 
   @ staticmethod
   def from_dict(data: dict, cls = None, **kwargs) -> Card:
@@ -24,7 +24,7 @@ class Card:
     return cls(
       id = data["id"],
       name = data["name"],
-      art = api.get_card_art(data["card_images"]["image_url"]).raw,
+      art = api.get_card_art(data["card_images"][0]["image_url"]).raw,
       **kwargs
     )
 

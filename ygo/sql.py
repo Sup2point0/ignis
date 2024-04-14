@@ -21,7 +21,7 @@ def connect():
 def refresh():
   with connect() as ctx:
     with ctx:
-      ctx.execute(query("refresh"))
+      ctx.executescript(query("refresh"))
 
 
 def update_cards_data(cards: list):
