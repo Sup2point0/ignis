@@ -7,7 +7,7 @@ def script():
   import ygo
   
   with open("../assets/data/cards-data.json", "r") as file:
-    data = json.load(file)[:42]
+    data = json.load(file)[:1000]
 
     ygo.api.save_cards_data(data)
 

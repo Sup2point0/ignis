@@ -8,7 +8,7 @@ def script():
 
   from stats import Visual
 
-  view = Visual("race")
+  view = Visual("race").view()
 
 
 if __name__ == "__main__":
