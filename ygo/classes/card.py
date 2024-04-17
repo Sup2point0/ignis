@@ -37,7 +37,7 @@ class Card:
     return cls(
       id = data["id"],
       name = data["name"],
-      art = api.get_card_art(data["card_images"][0]["image_url"]).content,
+      art = api.get_card_art(data["id"]).content,
       type = Card._sanitise_type_(data["type"]),
       **kwargs
     )

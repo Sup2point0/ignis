@@ -27,12 +27,11 @@ def refresh():
 
 
 def update_monsters_data(cards: list):
+  monsters = (card.as_dict() for card in cards if isinstance(card, MonsterCard))
+  
   with connect() as ctx:
     with ctx:
-      ctx.executemany(
-        query("update-monsters"),
-        (card.as_dict() for card in cards if isinstance(card, MonsterCard))
-      )
+      ctx.executemany(query("update-monsters"), monsters)
 
 
 def get_monsters_data(**kwargs):
@@ -42,7 +41,7 @@ def get_monsters_data(**kwargs):
     q += "WHERE " + "\n".join(f"{key} = {val}" for key, val in kwargs.items())
   
   with connect() as ctx:
-    out = ctx.execute()
-    # out = out.fetchall()
+    out = ctx.execute(q)
+    out = out.fetchall()
 
-  return out.fetchall()
+  return out
