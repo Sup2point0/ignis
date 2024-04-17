@@ -9,7 +9,6 @@ def script():
   from stats import Visual
 
   view = Visual("race")
-  view.display()
 
 
 if __name__ == "__main__":

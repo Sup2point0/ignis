@@ -19,13 +19,12 @@ class Card:
   def _sanitise_type_(text: str) -> str:
     text = text.casefold()
 
-    def check(text, type):
-      if type in text:
-        return type
-
-    check(text, "monster")
-    check(text, "spell")
-    check(text, "trap")
+    if "monster" in text:
+      return "monster"
+    if "spell" in text:
+      return "spell"
+    if "trap" in text:
+      return "trap"
 
   @ staticmethod
   def from_dict(data: dict, cls = None, **kwargs) -> Card:

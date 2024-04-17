@@ -22,9 +22,6 @@ class Visual:
     self.data = Counter(cards)
     self.x, self.y = zip(*self.data.items())
 
-  def display(self):
-    '''...'''
-
     self.figure, self.axes = plt.subplots()
     self.axes.bar(self.x, self.y)
 

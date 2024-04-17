@@ -49,7 +49,7 @@ class MonsterCard(Card):
   def as_dict(self) -> dict:
     return {
       **super().as_dict(),
-      "lvl": self.level,
-      "atk": self.attack,
-      "def": self.defense,
+      "level": self.level,
+      "attack": self.attack,
+      "defense": self.defense,
     }

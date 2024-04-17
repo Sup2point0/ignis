@@ -26,7 +26,7 @@ def get_card_art(id: int) -> requests.Response:
 
 
 def save_cards_data(data: dict):
-  cards = [link.json_to_card(each) for each in data]
+  cards = [link.dict_to_card(each) for each in data]
   cards = [card for card in cards if card]
   sql.update_monsters_data(cards)
 
