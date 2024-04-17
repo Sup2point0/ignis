@@ -8,7 +8,7 @@ from scripts import Script
 def script():
   import ygo
 
-  ygo.api.update_cards_data()
+  ygo.sql.refresh()
 
 
 if __name__ == "__main__":

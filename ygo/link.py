@@ -11,5 +11,6 @@ def json_to_card(data: dict) -> Card | MonsterCard:
         return MonsterCard.from_dict(data)
       else:
         return Card.from_dict(data)
-    except:
-       return None 
+    except Exception as e:
+      raise e
+      return None 

@@ -17,7 +17,9 @@ def query(name: str) -> str:
 
 
 def connect():
-  return closing(sqlite.connect(ROUTE))
+  connection = sqlite.connect(ROUTE)
+  connection.row_factory = sqlite.Row
+  return closing(connection)
 
 
 def refresh():

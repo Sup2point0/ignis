@@ -1,4 +1,4 @@
-INSERT INTO cards VALUES(
+INSERT OR IGNORE INTO cards VALUES(
   :id,
   :name,
   :art,
