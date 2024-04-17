@@ -15,8 +15,8 @@ class MonsterCard(Card):
     race: str,
     attribute: str,
     level: int,
-    atks: int,
-    defs: int,
+    attack: int,
+    defense: int,
     pend: bool = False,
     *args, **kwargs
   ):
@@ -27,8 +27,8 @@ class MonsterCard(Card):
       race = race,
       attribute = attribute,
       level = level,
-      atks = atks,
-      defs = defs,
+      attack = attack,
+      defense = defense,
       pend = pend,
     )
 
@@ -41,7 +41,15 @@ class MonsterCard(Card):
       race = data["race"].lower(),
       attribute = data["attribute"].upper(),
       level = data["level"],
-      atks = data["atk"],
-      defs = data["def"],
+      attack = data["atk"],
+      defense = data["def"],
       pend = ("pendulum" in data["frameType"].lower()),
     )
+  
+  def as_dict(self) -> dict:
+    return {
+      **super().as_dict(),
+      "lvl": self.level,
+      "atk": self.attack,
+      "def": self.defense,
+    }

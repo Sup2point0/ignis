@@ -6,8 +6,8 @@ INSERT INTO cards VALUES(
   :kind,
   :race,
   :attribute,
-  :lvl,
-  :atk,
-  :def,
+  :level,
+  :attack,
+  :defense,
   :pend
 );

@@ -1,6 +1,8 @@
 from contextlib import closing
 import sqlite3 as sqlite
 
+from .classes import MonsterCard
+
 
 ROUTE = "../assets/data/cards-data.db"
 
@@ -24,10 +26,13 @@ def refresh():
       ctx.executescript(query("refresh"))
 
 
-def update_cards_data(cards: list):
+def update_monsters_data(cards: list):
   with connect() as ctx:
     with ctx:
-      ctx.executemany(query("update-monsters"), (card.as_dict() for card in cards))
+      ctx.executemany(
+        query("update-monsters"),
+        (card.as_dict() for card in cards if isinstance(card, MonsterCard))
+      )
 
 
 def get_monsters_data(**kwargs):

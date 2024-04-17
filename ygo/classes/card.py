@@ -11,8 +11,21 @@ class Card:
     id: int,
     name: str,
     art: bytes,
+    type: str,
   ):
-    sup.init(self, id = id, name = name, art = art)
+    sup.init(self, id = id, name = name, art = art, type = type)
+
+  @ staticmethod
+  def _sanitise_type_(text: str) -> str:
+    text = text.casefold()
+
+    def check(text, type):
+      if type in text:
+        return type
+
+    check(text, "monster")
+    check(text, "spell")
+    check(text, "trap")
 
   @ staticmethod
   def from_dict(data: dict, cls = None, **kwargs) -> Card:
@@ -24,7 +37,8 @@ class Card:
     return cls(
       id = data["id"],
       name = data["name"],
-      art = api.get_card_art(data["card_images"][0]["image_url"]).raw,
+      art = api.get_card_art(data["card_images"][0]["image_url"]).content,
+      type = Card._sanitise_type_(data["type"]),
       **kwargs
     )
 

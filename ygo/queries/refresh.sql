@@ -10,8 +10,8 @@ CREATE TABLE cards(
   kind TEXT,
   race TEXT,
   attribute TEXT,
-  lvl INT,
-  atk INT,
-  def INT,
+  level INT,
+  attack INT,
+  defense INT,
   pend INT
 );
