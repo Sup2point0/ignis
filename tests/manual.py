@@ -12,5 +12,3 @@ import ygo
 #   rows = ygo.sql.get_monsters_data()
 #   img = Image.open(BytesIO(rows[randint(0, 99)][2]))
 #   img.show()
-
-print("STATUS: DONE!")

@@ -1,11 +1,11 @@
-'''
-Script for fetching and saving cards data from the YGOPRODECK API.
-'''
-
 from scripts import Script
 
 
 def script():
+  '''
+  Script for fetching and saving cards data from the YGOPRODECK API.
+  '''
+
   import ygo
 
   ygo.sql.refresh()
