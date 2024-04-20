@@ -1,6 +1,7 @@
 from contextlib import closing
 import sqlite3 as sqlite
 
+import suptools as sup
 from . import link
 from .classes import Card, MonsterCard
 
@@ -41,7 +42,7 @@ def get_monsters_data(**kwargs) -> list:
   q = query("get-monsters")
 
   if kwargs:
-    q += "WHERE " + "\n".join(f"{key} = {val}" for key, val in kwargs.items())
+    q += "WHERE " + "\nAND ".join(f"{key} = \"{val}\"" for key, val in kwargs.items())
   
   with connect() as ctx:
     out = ctx.execute(q)
