@@ -24,14 +24,12 @@ def get_cards_data(**kwargs) -> dict:
     raise Exception(f"status {status}")
 
 
-def set_card_art(card: dict, art: bytes) -> dict:
-  card["art"] = art
-  return card
+def save_cards_data(data: dict):
+  '''Save data from the YGOPRODECK API to a JSON file.'''
 
-def get_card_art(id: int) -> requests.Response:
-  '''Get the art for a card given its ID.'''
+  with open("data/cards.json", "w") as file:
+    sup.io.save_json(data, file)
 
-  return requests.get(f"https://images.ygoprodeck.com/images/cards_cropped/{id}.jpg")
 
 async def async_load_card_art(ctx: aiohttp.ClientSession, card: Card, **kwargs):
   '''Asynchronously get and set the art for a card given its ID.'''
@@ -44,7 +42,7 @@ async def async_load_card_art(ctx: aiohttp.ClientSession, card: Card, **kwargs):
   # sup.log(collected = card.name)
 
 
-async def async_save_cards_art(data: dict) -> list[Card]:
+async def async_save_cards(data: dict) -> list[Card]:
   total = len(data)
   cards = [link.dict_to_card(each) for each in data]
   valid = len(cards)
@@ -62,17 +60,3 @@ async def async_save_cards_art(data: dict) -> list[Card]:
       await card
   
   sql.update_monsters_data(cards)
-
-
-def save_cards_data(data: dict):
-  cards = [link.dict_to_card(each) for each in data]
-  total = len(cards)
-  cards = [card for card in cards if card]
-  valid = len(cards)
-  print(f"collected {valid} of {total}")
-  sql.update_monsters_data(cards)
-
-
-def update_cards_data():
-  data = get_cards_data()
-  save_cards_data(data)

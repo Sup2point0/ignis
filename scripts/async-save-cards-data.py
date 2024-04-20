@@ -2,6 +2,10 @@ import suptools as sup
 
 
 def script():
+  '''
+  Script for loading data from the local JSON file and saving it to the databse.
+  '''
+
   import asyncio
   import json
   import random
