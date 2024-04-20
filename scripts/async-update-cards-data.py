@@ -10,7 +10,7 @@ def script():
 
   with open("../assets/data/cards-data.json", "r") as file:
     # data = json.load(file)
-    data = random.choices(json.load(file), k = 200)
+    data = random.choices(json.load(file), k = 20)
   
   asyncio.run(ygo.api.async_save_cards_art(data))
 
