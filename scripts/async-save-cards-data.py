@@ -16,7 +16,7 @@ def script():
     # data = json.load(file)
     data = random.choices(json.load(file), k = 20)
   
-  asyncio.run(ygo.api.async_save_cards_art(data))
+  asyncio.run(ygo.api.async_save_cards(data))
 
 
 if __name__ == "__main__":
