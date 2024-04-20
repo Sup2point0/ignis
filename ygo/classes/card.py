@@ -10,10 +10,10 @@ class Card:
   def __init__(self,
     id: int,
     name: str,
-    art: bytes,
     type: str,
+    art: bytes = None,
   ):
-    sup.init(self, id = id, name = name, art = art, type = type)
+    sup.init(self, id = id, name = name, type = type, art = art)
 
   @ staticmethod
   def _sanitise_type_(text: str) -> str:
@@ -36,7 +36,6 @@ class Card:
     return cls(
       id = data["id"],
       name = data["name"],
-      art = api.get_card_art(data["id"]).content,
       type = Card._sanitise_type_(data["type"]),
       **kwargs
     )

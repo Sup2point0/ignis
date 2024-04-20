@@ -17,12 +17,16 @@ class Visual:
   def __init__(self, property, **constraints):
     '''...'''
 
+    sup.log(action = "loading data...")
     cards = ygo.sql.get_monsters_data()
+
+    sup.log(action = "filtering cards...")
     cards = (
       card[property] for card in cards
       if all(card[key] == val for key, val in constraints)
     )
 
+    sup.log(action = "sorting cards...")
     data = Counter(cards)
     data = sorted(data.items(), key = (lambda card: card[1]))
 

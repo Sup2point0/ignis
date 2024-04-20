@@ -1,4 +1,4 @@
-from scripts import Script
+import suptools as sup
 
 
 def script():
@@ -12,4 +12,4 @@ def script():
 
 
 if __name__ == "__main__":
-  Script(script)
+  sup.run(script)

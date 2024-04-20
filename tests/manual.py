@@ -8,6 +8,8 @@ import suptools as sup
 
 import ygo
 
+ygo.sql.refresh()
+
 # with open("../assets/test.jpg", "wb") as file:
 #   rows = ygo.sql.get_monsters_data()
 #   img = Image.open(BytesIO(rows[randint(0, 99)][2]))

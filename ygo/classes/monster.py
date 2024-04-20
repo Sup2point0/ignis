@@ -40,9 +40,9 @@ class MonsterCard(Card):
       kind = data["frameType"].lower(),
       race = data["race"].lower(),
       attribute = data["attribute"].upper(),
-      level = data["level"],
+      level = data.get("level", data.get("linkval")),
       attack = data["atk"],
-      defense = data["def"],
+      defense = data.get("def", None),
       pend = ("pendulum" in data["frameType"].lower()),
     )
   
