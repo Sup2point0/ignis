@@ -11,9 +11,11 @@ def script():
   sup.log(act = "initialising network...")
   ai.summon()
 
+  sup.log(act = "loading data...")
   data = ai.materials()
-  sup.log(data = data)
-  # ai.activate(data)
+
+  sup.log(act = "training network...")
+  ai.activate(data)
 
 
 if __name__ == "__main__":
