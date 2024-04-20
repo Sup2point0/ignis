@@ -18,7 +18,7 @@ class Visual:
     '''...'''
 
     sup.log(action = "loading data...")
-    cards = ygo.sql.get_monsters_data()
+    cards = ygo.sql.load_monsters_data()
 
     sup.log(action = "filtering cards...")
     cards = (

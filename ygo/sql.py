@@ -38,12 +38,12 @@ def update_monsters_data(cards: list[Card]):
       ctx.executemany(query("update-monsters"), monsters)
 
 
-def get_monsters_data(**kwargs) -> list:
+def load_monsters_data(constraints: str = None) -> list:
   q = query("get-monsters")
 
-  if kwargs:
-    q += "WHERE " + "\nAND ".join(f"{key} = \"{val}\"" for key, val in kwargs.items())
-  
+  if constraints:
+    q += "WHERE " + constraints
+ 
   with connect() as ctx:
     out = ctx.execute(q)
     out = out.fetchall()

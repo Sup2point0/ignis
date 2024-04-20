@@ -9,7 +9,8 @@ def script():
 
   import ygo
 
-  cards = ygo.sql.get_monsters_data(attribute = "DARK")
+  query = '''attribute = "FIRE"'''
+  cards = ygo.sql.load_monsters_data(query)
   card = random.choice(cards)
   art = card["art"]
   path = f"../assets/images/{card['name']}.jpg"

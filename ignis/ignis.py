@@ -2,9 +2,16 @@
 Implements the `Ignis` base class for Ignis to derive from.
 '''
 
+from io import BytesIO
+
+import numpy as np
+import tensorflow as tf
 from tensorflow import keras
+from keras import layers
+from PIL import Image
 
 import suptools as sup
+import ygo
 
 
 class Ignis:
@@ -13,6 +20,17 @@ class Ignis:
   class defaults:
     rate = 10 ** -6
     epochs = 12
+
+  class presets:
+    layers = {
+      "sanitise": [
+        layers.Resizing(200, 200, interpolation = "bilinear"),
+        layers.Rescaling(1/255),
+      ],
+      "train": [
+        layers.RandomFlip(mode = "horizontal")
+      ],
+    }
 
   def __init__(self, shard: str):
     '''Create an Ignis.'''
@@ -52,7 +70,11 @@ class Ignis:
       metrics = ["acc"],
     )
 
-    self.model.fit_generator(data, epochs = self.epochs)   ### FIXME
+    self.model.fit_generator(data["training"],
+      epochs = self.epochs,
+      validation_data = data["validation"],
+      verbose = 2,
+    )
 
   def save(self):
     '''Save the model to local files.'''
@@ -76,3 +98,27 @@ class Ignis:
     '''Use the network on given data.'''
 
     raise NotImplementedError()
+  
+  @ staticmethod
+  def materials():
+    '''Load card art images with their labels.'''
+
+    query = '''attribute = "FIRE" or attribute = "WATER"'''
+    cards = ygo.sql.load_monsters_data(query)
+    pairs = [
+      (ygo.link.bytes_to_image(card["art"]), card["attribute"])
+      for card in cards
+    ]
+
+    images, labels = zip(*pairs)
+    data = np.array(keras.utils.img_to_array(image) for image in images)
+
+    return tf.data.Dataset.from_tensor_slices((data, labels))
+
+    # self.data["training"] = training.flow_from_dataframe(
+    #   cards,
+    #   # directory = "../assets/images/",
+    #   target_size = (624, 624),
+    #   batch_size = 42,
+    #   class_mode = "categorical",
+    # )

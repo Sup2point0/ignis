@@ -1,3 +1,7 @@
+from io import BytesIO
+
+from PIL import Image
+
 import suptools as sup
 from .classes import Card, MonsterCard
 
@@ -17,3 +21,9 @@ def dict_to_card(data: dict) -> Card | MonsterCard:
     if True:
       print(data)
       raise
+
+
+def bytes_to_image(data: bytes) -> Image:
+  '''Convert `bytes` to a `PIL.Image` object.'''
+
+  return Image.open(BytesIO(data))

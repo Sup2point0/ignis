@@ -12,7 +12,7 @@ import ygo
 
 
 def test_load_art():
-  card = random.choice(ygo.sql.get_monsters_data())
+  card = random.choice(ygo.sql.load_monsters_data())
   img = Image.open(BytesIO(card["art"]))
   img.show()
 
