@@ -66,7 +66,7 @@ class Ignis:
       metrics = ["acc"],
     )
 
-    self.model.fit(data,
+    self.model.fit(*data,
       epochs = self.epochs,
       # validation_split = 0.1,
       verbose = 2,
@@ -99,8 +99,10 @@ class Ignis:
   def materials():
     '''Load card art images with their labels.'''
 
-    query = '''attribute = "WATER" or attribute = "FIRE'''
+    query = '''attribute = "WATER" or attribute = "FIRE"'''
     cards = ygo.sql.load_monsters_data(query)
+    sup.log(act = "loaded cards")
+
     data = (
       (
         keras.utils.img_to_array(
@@ -110,6 +112,7 @@ class Ignis:
       )
       for card in cards
     )
+    sup.log(act = "filtered data")
 
     images, labels = zip(*data)
 

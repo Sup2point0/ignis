@@ -13,5 +13,9 @@ class load(commands.Cog):
     self.bot = bot
 
   @ disc.slash_command()
+  async def load(self, ctx):
+    pass
+
+  @ load.subcommand()
   async def test(self, ctx):
-    await ctx.response.send("testing!", ephemeral = True)
+    await ctx.send("testing!", ephemeral = True)
