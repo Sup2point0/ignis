@@ -1,4 +1,6 @@
-INSERT OR IGNORE INTO cards VALUES(
+-- update data for a card
+
+REPLACE INTO cards VALUES(
   :id,
   :name,
   :art,
