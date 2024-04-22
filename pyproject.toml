@@ -1,12 +1,13 @@
 [project]
 name = "ignis"
-description = "Machine learning models for doing interesting things related to Yu-Gi-Oh!"
+description = "Various projects involving the Yu-Gi-Oh! card game, including asynchronous API requests, database querying, machine learning, and a Discord bot!"
 readme = "README.md"
 authors = [{name = "Sup#2.0"}]
-# license = {file = "LICENSE"}
+license = {file = "LICENSE"}
 requires-python = ">= 3.10"
 dependencies = [
-  "requests",
+  "aiohttp",
   "tensorflow",
+  "keras",
 ]
 keywords = []
