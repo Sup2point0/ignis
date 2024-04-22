@@ -7,11 +7,8 @@ def script():
   from ignis import Ai
 
   ai = Ai("Ai")
-
-  sup.log(act = "initialising network...")
   ai.summon()
 
-  sup.log(act = "loading data...")
   data = ai.materials()
 
   sup.log(act = "training network...")

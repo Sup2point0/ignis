@@ -1,4 +1,6 @@
+import urllib
 from io import BytesIO
+import urllib.parse
 
 from PIL import Image
 
@@ -27,3 +29,10 @@ def bytes_to_image(data: bytes) -> Image:
   '''Convert `bytes` to a `PIL.Image` object.'''
 
   return Image.open(BytesIO(data))
+
+
+def url(name) -> str:
+  '''Format the URL on Yugipedia of a given card.'''
+
+  sanitised = name.casefold().replace(" ", "_")
+  return f"https://yugipedia.com/wiki/{sanitised}"
