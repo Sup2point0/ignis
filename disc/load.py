@@ -81,7 +81,7 @@ class load(commands.Cog):
       Embed(
         title = found["name"],
         url = ygo.link.url(found["id"]),
-        colour = 0x000,
+        colour = load.colours[found["kind"]],
       )
       .set_thumbnail(url = disc.File(BytesIO(found["art"])))
       .add_field(name = "Type", value = found["race"])

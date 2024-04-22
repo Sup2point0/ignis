@@ -37,7 +37,7 @@ class MonsterCard(Card):
     '''Create a monster card with data from a `dict`.'''
 
     return Card.from_dict(data, MonsterCard,
-      kind = data["frameType"].lower(),
+      kind = data["frameType".split("_")[0]].lower(),
       race = data["race"].lower(),
       attribute = data["attribute"].upper(),
       level = data.get("level", data.get("linkval")),

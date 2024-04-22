@@ -30,12 +30,28 @@ def bytes_to_image(data: bytes) -> Image:
   return Image.open(BytesIO(data))
 
 
-def url(id: int) -> str:
+def url(card: dict) -> str:
   '''Find the URL on Yugipedia of a card, given its ID.'''
+  
+  password = card["id"]
+  url = (
+    "https://yugipedia.com/api.php?action=askargs"
+    f"&conditions=Password::{password}&format=json"
+  )
 
-  load = requests.get(f"https://yugipedia.com/api.php?action=askargs&conditions=Password::{id}")
-  sup.log(json = load.json())
+  load = requests.get(url, headers = {"User-Agent": "Mozilla/5.0"})
+  
   data = load.json()["query"]
-  card = data["results"].items()[0]
+  found = data["results"]
 
-  return card["fullurl"]
+  # find the closest match, which is most likely the shortest
+  target = sorted(
+    (
+      key for key in found.keys()
+      if key.casefold().startswith(card["name"].casefold())
+    ),
+    key = lambda card: len(card)
+  )[0]
+  out = found[target]
+
+  return out["fullurl"]
