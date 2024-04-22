@@ -10,8 +10,8 @@ from dotenv import load_dotenv
 
 import suptools as sup
 # from ignis import Ai
-from .load import load
-from .predict import predict
+from .load import Load
+from .predict import Predict
 from .play import play
 
 
@@ -23,8 +23,8 @@ bot = commands.Bot(intents = disc.Intents.none())
 
 def script():
   bot.remove_command("help")
-  bot.add_cog(load(bot))
-  bot.add_cog(predict(bot))
+  bot.add_cog(Load(bot))
+  bot.add_cog(Predict(bot))
   bot.add_cog(play(bot))
 
   load_dotenv()

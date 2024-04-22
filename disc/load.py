@@ -15,7 +15,7 @@ import ygo
 from .silence import silence
 
 
-class load(commands.Cog):
+class Load(commands.Cog):
   '''Commands involving loading data.'''
 
   colours = {
@@ -30,15 +30,27 @@ class load(commands.Cog):
     "link": 0x3e8ac6,
   }
 
+  presets = {
+    "card-id": SlashOption(
+      "id", "ID (password) of the card",
+      required = False, default = None,
+    ),
+    "card-name": SlashOption(
+      "card", "name of the card",
+      required = False, default = None,
+    ),
+  }
+
   def __init__(self, bot):
     self.bot = bot
 
+
+  ## utils ##
   class CardNotFound(Exception):
     '''Exception raised when a card is not found.'''
     pass
 
-  @ staticmethod
-  async def find(ctx, constraints: str = None, rand = False) -> list:
+  async def _find_(self, ctx, constraints: str = None, rand = False) -> list:
     '''Try to find a card from the database.
     
     If none is found, send an error message and raise `CardNotFound`.
@@ -50,13 +62,16 @@ class load(commands.Cog):
 
     if not data:
       await ctx.send("No card found!", ephemeral = True)
-      raise load.CardNotFound()
+      raise Load.CardNotFound()
     
     return random.choice(data) if rand else data[0]
 
+
+  ## /load ##
   @ disc.slash_command()
   async def load(self, ctx):
     pass
+
 
   ## /load card ##
   @ load.subcommand()
@@ -64,34 +79,44 @@ class load(commands.Cog):
     pass
 
   @ card.subcommand(name = "with-id")
-  async def card_with_id(self, ctx,
-    card: int = SlashOption(
-      "card", "ID (password) of the card",
-      required = False, default = None
-    ),
-  ):
-    '''load info for a card from the database, given its ID'''
+  async def card_with_id(self, ctx, card: int = presets["card-id"]):
+    '''load info for a card from the database, searching by ID'''
 
-    found = await load.find(ctx,
+    found = await self._find_(ctx,
       constraints = f"id = {card}" if card else None,
       rand = not card
     )
-    
+
+    await self._send_card_details_(ctx, found)
+
+  @ card.subcommand(name = "with-name")
+  async def card_with_name(self, ctx, card: str = presets["card-name"]):
+    '''load info for a card from the database, searching by name'''
+
+    found = await self._find_(ctx, 
+      constraints = f"name = {card}" if card else None,
+      rand = not card
+    )
+
+  async def _send_card_details_(self, ctx, card):
+    '''Send the details of a card.'''
+
     await ctx.send(embed = (
       Embed(
-        title = found["name"],
-        url = ygo.link.url(found["id"]),
-        colour = load.colours[found["kind"]],
+        title = card["name"],
+        url = ygo.link.url(card),
+        colour = Load.colours[card["kind"].lower()],
       )
-      .set_thumbnail(url = disc.File(BytesIO(found["art"])))
-      .add_field(name = "Type", value = found["race"])
-      .add_field(name = "Kind", value = found["kind"])
-      .add_field(name = "Attribute", value = found["attribute"])
-      .add_field(name = "Level", value = found["level"])
-      .add_field(name = "ATK", value = found["attack"])
-      .add_field(name = "DEF", value = found["defense"])
+      # .set_thumbnail(url = disc.File(BytesIO(found["art"])))
+      .add_field(name = "Type", value = card["race"])
+      .add_field(name = "Kind", value = card["kind"])
+      .add_field(name = "Attribute", value = card["attribute"])
+      .add_field(name = "Level", value = card["level"])
+      .add_field(name = "ATK", value = card["attack"])
+      .add_field(name = "DEF", value = card["defense"])
       .set_footer(text = "data sourced from the YGOPRODECK API")
     ))
+
 
   ## /load art ##
   @ load.subcommand()
@@ -99,15 +124,10 @@ class load(commands.Cog):
     pass
 
   @ art.subcommand(name = "with-id")
-  async def art_with_id(self, ctx,
-    card: int = SlashOption(
-      "id", "ID (password) of the card",
-      required = False, default = None,
-    ),
-  ):
+  async def art_with_id(self, ctx, card: int = presets["card-id"]):
     '''load art for a card from the database, given its ID'''
 
-    found = await load.find(ctx,
+    found = await self._find_(ctx,
       constraints = f"id = {card}" if card else None,
       rand = not card
     )
@@ -116,3 +136,12 @@ class load(commands.Cog):
       file = disc.File(BytesIO(found["art"]),
       filename = card["name"] + ".jpg")
     )
+
+  @ card_with_name.on_autocomplete("card")
+  async def fill_card_name(self, ctx, card):
+    # q = f'''CHARINDEX({card}, name) > 0'''
+    q = f"name LIKE '%{card}%'"
+    cards = ygo.sql.load_monsters_data(q)
+    out = [card["name"] for card in cards[:13]]
+
+    await ctx.response.send_autocomplete(out)
