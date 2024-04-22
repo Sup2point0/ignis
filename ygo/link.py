@@ -34,6 +34,7 @@ def url(id: int) -> str:
   '''Find the URL on Yugipedia of a card, given its ID.'''
 
   load = requests.get(f"https://yugipedia.com/api.php?action=askargs&conditions=Password::{id}")
+  sup.log(json = load.json())
   data = load.json()["query"]
   card = data["results"].items()[0]
 

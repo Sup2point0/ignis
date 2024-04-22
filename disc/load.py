@@ -18,6 +18,18 @@ from .silence import silence
 class load(commands.Cog):
   '''Commands involving loading data.'''
 
+  colours = {
+    "spell": 0x000,
+    "trap": 0x000,
+    "normal": 0x000,
+    "effect": 0x000,
+    "ritual": 0x000,
+    "fusion": 0x000,
+    "synchro": 0x000,
+    "xyz": 0x000,
+    "link": 0x000,
+  }
+
   def __init__(self, bot):
     self.bot = bot
 
@@ -68,7 +80,7 @@ class load(commands.Cog):
     await ctx.send(embed = (
       Embed(
         title = found["name"],
-        url = ygo.link.url(found["name"]),
+        url = ygo.link.url(found["id"]),
         colour = 0x000,
       )
       .set_thumbnail(url = disc.File(BytesIO(found["art"])))
