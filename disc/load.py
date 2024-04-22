@@ -19,15 +19,15 @@ class load(commands.Cog):
   '''Commands involving loading data.'''
 
   colours = {
-    "spell": 0x000,
-    "trap": 0x000,
+    "spell": 0x3d8776,
+    "trap": 0x9c3775,
     "normal": 0x000,
-    "effect": 0x000,
-    "ritual": 0x000,
-    "fusion": 0x000,
-    "synchro": 0x000,
-    "xyz": 0x000,
-    "link": 0x000,
+    "effect": 0xae603a,
+    "ritual": 0x526faf,
+    "fusion": 0x773f8a,
+    "synchro": 0xe0deda,
+    "xyz": 0x000103,
+    "link": 0x3e8ac6,
   }
 
   def __init__(self, bot):
