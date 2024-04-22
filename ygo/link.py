@@ -1,7 +1,6 @@
-import urllib
 from io import BytesIO
-import urllib.parse
 
+import requests
 from PIL import Image
 
 import suptools as sup
@@ -31,8 +30,11 @@ def bytes_to_image(data: bytes) -> Image:
   return Image.open(BytesIO(data))
 
 
-def url(name) -> str:
-  '''Format the URL on Yugipedia of a given card.'''
+def url(id: int) -> str:
+  '''Find the URL on Yugipedia of a card, given its ID.'''
 
-  sanitised = name.casefold().replace(" ", "_")
-  return f"https://yugipedia.com/wiki/{sanitised}"
+  load = requests.get(f"https://yugipedia.com/api.php?action=askargs&conditions=Password::{id}")
+  data = load.json()["query"]
+  card = data["results"].items()[0]
+
+  return card["fullurl"]
