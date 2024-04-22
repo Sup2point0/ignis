@@ -107,7 +107,7 @@ class Load(commands.Cog):
         url = ygo.link.url(card),
         colour = Load.colours[card["kind"].lower()],
       )
-      # .set_thumbnail(url = disc.File(BytesIO(found["art"])))
+      # .set_thumbnail(url = disc.File())
       .add_field(name = "Type", value = card["race"])
       .add_field(name = "Kind", value = card["kind"])
       .add_field(name = "Attribute", value = card["attribute"])
@@ -137,11 +137,22 @@ class Load(commands.Cog):
       filename = card["name"] + ".jpg")
     )
 
+
+  ## autofill /load ##
+  @ card_with_id.on_autocomplete("card")
+  async def fill_card_id(self, ctx, card):
+    q = f"id LIKE '{card}'"
+    await self._autofill_(ctx, q)
+  
   @ card_with_name.on_autocomplete("card")
   async def fill_card_name(self, ctx, card):
-    # q = f'''CHARINDEX({card}, name) > 0'''
     q = f"name LIKE '%{card}%'"
-    cards = ygo.sql.load_monsters_data(q)
-    out = [card["name"] for card in cards[:13]]
+    await self._autofill_(ctx, q)
+
+  async def _autofill_(self, ctx, query: str):
+    '''Query the database to autofill a slash command.'''
+    
+    cards = ygo.sql.load_monsters_data(query)
+    out = [f'''{card["id"]} – {card["name"]}''' for card in cards[:13]]
 
     await ctx.response.send_autocomplete(out)
