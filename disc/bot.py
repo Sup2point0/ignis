@@ -5,9 +5,6 @@ Ai.
 import os
 
 import nextcord as disc
-from nextcord import Embed, SlashOption, SelectOption
-from nextcord import ui
-from nextcord.ui import View, Modal, button
 from nextcord.ext import commands
 from dotenv import load_dotenv
 
@@ -16,18 +13,14 @@ import suptools as sup
 from .load import load
 
 
+__version__ = "1.0.0"
+
+
 bot = commands.Bot(intents = disc.Intents.none())
-bot.remove_command("help")
-
-
-@ bot.slash_command(description = "testing")
-async def test(ctx):
-  await ctx.send("testing!", ephemeral = True,
-    embed = Embed(title = "test", description = "testing\ntesting")
-  )
 
 
 def script():
+  bot.remove_command("help")
   bot.add_cog(load(bot))
 
   load_dotenv()
