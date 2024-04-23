@@ -1,4 +1,6 @@
+pytest
 aiohttp
 matplotlib
 tensorflow
 keras
+nextcord
