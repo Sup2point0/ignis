@@ -32,4 +32,5 @@ jobs:
       - name: 'Python – execute'
         env:
           LINK: ${{ secrets.LINK }}
-        run: python disc/__main__.py
+        # run: python disc/__main__.py
+        run: cd disc && python __main__.py
