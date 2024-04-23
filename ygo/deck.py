@@ -2,7 +2,7 @@ import xml.etree.ElementTree as et
 from collections import Counter
 
 
-def load_deck(data: str) -> dict:
+def load(data: str) -> dict:
   '''Load the names of the cards in a deck from an XML file.'''
 
   out = {}
