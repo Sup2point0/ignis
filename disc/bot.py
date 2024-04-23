@@ -12,24 +12,26 @@ import suptools as sup
 # from ignis import Ai
 from .config import Config
 from .load import Load
+from .discover import Discover
 from .predict import Predict
-from .play import play
+from .play import Play
 
 
 __version__ = "1.0.0"
-
 
 bot = commands.Bot(intents = disc.Intents.none())
 
 
 def script():
-  bot.remove_command("help")
-  bot.add_cog(Config(bot))
-  bot.add_cog(Load(bot))
-  bot.add_cog(Predict(bot))
-  bot.add_cog(play(bot))
-
   load_dotenv()
+  # run this first, since some cogs depend on environment variables
+
+  bot.remove_command("help")
+
+  cogs = [Config, Load, Discover, Predict, Play]
+  for cog in cogs:
+    bot.add_cog(cog(bot))
+
   link = os.getenv("LINK")
   if link is None:
     raise ValueError("missing materials for Link Summon!")

@@ -47,8 +47,7 @@ class Load(commands.Cog):
 
   ## utils ##
   class CardNotFound(Exception):
-    '''Exception raised when a card is not found.'''
-    pass
+    '''No card was found.'''
 
   async def _find_(self, ctx, constraints: str = None, rand = False) -> list:
     '''Try to find a card from the database.

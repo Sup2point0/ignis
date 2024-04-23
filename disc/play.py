@@ -13,7 +13,7 @@ from nextcord.ext import commands
 import ygo
 
 
-class play(commands.Cog):
+class Play(commands.Cog):
   '''Commands involving playing games.'''
 
   def __init__(self, bot):
@@ -56,7 +56,7 @@ class play(commands.Cog):
     join = await thread.send(ctx.user.mention)
     await join.delete()
 
-    self.games["ygordle-word"] = WordGame(chars = characters)
+    self.games["ygordle-word"] = Play.WordGame(chars = characters)
 
   class WordGame:
     def __init__(self, chars: int = 5):
