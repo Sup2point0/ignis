@@ -6,11 +6,14 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: '$HOME'
+    # defaults:
+    #   run:
+    #     working-directory: '$HOME'
 
     steps:
+      - name: 'Git – set working directory'
+        run: echo "$HOME" >> $GITHUB_PATH
+        
       - name: 'Git – checkout'
         uses: actions/checkout@v4
   
