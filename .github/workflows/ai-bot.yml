@@ -11,8 +11,8 @@ jobs:
     #     working-directory: '$HOME'
 
     steps:
-      # - name: 'Git – set working directory'
-      #   run: echo "$HOME" >> $GITHUB_PATH
+      - name: 'Git – set working directory'
+        run: echo "$HOME" >> $GITHUB_PATH
         
       - name: 'Git – checkout'
         uses: actions/checkout@v4
