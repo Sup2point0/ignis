@@ -71,14 +71,14 @@ class Load(commands.Cog):
   async def load(self, ctx):
     pass
 
-
-  ## /load card ##
-  @ load.subcommand()
-  async def card(self, ctx):
-    pass
-
-  @ card.subcommand(name = "with-id")
-  async def card_with_id(self, ctx, card: int = presets["card-id"]):
+  @ load.subcommand(name = "with-id")
+  async def with_id(self, ctx,
+    card: int = presets["card-id"],
+    art: bool = SlashOption(
+      "art-only", "whether to load only the art image",
+      required = False, default = False,
+    ),
+  ):
     '''load info for a card from the database, searching by ID'''
 
     found = await self._find_(ctx,
@@ -86,10 +86,16 @@ class Load(commands.Cog):
       rand = not card
     )
 
-    await self._send_card_details_(ctx, found)
+    await self._send_card_details_(ctx, found, art)
 
-  @ card.subcommand(name = "with-name")
-  async def card_with_name(self, ctx, card: str = presets["card-name"]):
+  @ load.subcommand(name = "with-name")
+  async def with_name(self, ctx,
+    card: str = presets["card-name"],
+    art: bool = SlashOption(
+      "art-only", "whether to load only the art image",
+      required = False, default = False,
+    ),
+  ):
     '''load info for a card from the database, searching by name'''
 
     found = await self._find_(ctx, 
@@ -97,53 +103,42 @@ class Load(commands.Cog):
       rand = not card
     )
 
-  async def _send_card_details_(self, ctx, card):
-    '''Send the details of a card.'''
+    await self._send_card_details_(ctx, found, art)
 
-    await ctx.send(embed = (
-      Embed(
-        title = card["name"],
-        url = ygo.link.url(card),
-        colour = Load.colours[card["kind"].lower()],
+  async def _send_card_details_(self, ctx, card, art: bool):
+    '''Send the details or art of a card.'''
+
+    if art:
+      await ctx.send(
+        file = disc.File(BytesIO(card["art"]),
+        filename = card["name"] + ".jpg")
       )
-      # .set_thumbnail(url = disc.File())
-      .add_field(name = "Type", value = card["race"])
-      .add_field(name = "Kind", value = card["kind"])
-      .add_field(name = "Attribute", value = card["attribute"])
-      .add_field(name = "Level", value = card["level"])
-      .add_field(name = "ATK", value = card["attack"])
-      .add_field(name = "DEF", value = card["defense"])
-      .set_footer(text = "data sourced from the YGOPRODECK API")
-    ))
 
-
-  ## /load art ##
-  @ load.subcommand()
-  async def art(self, ctx):
-    pass
-
-  @ art.subcommand(name = "with-id")
-  async def art_with_id(self, ctx, card: int = presets["card-id"]):
-    '''load art for a card from the database, given its ID'''
-
-    found = await self._find_(ctx,
-      constraints = f"id = {card}" if card else None,
-      rand = not card
-    )
-    
-    await ctx.send(
-      file = disc.File(BytesIO(found["art"]),
-      filename = card["name"] + ".jpg")
-    )
+    else:
+      await ctx.send(embed = (
+        Embed(
+          title = card["name"],
+          url = ygo.link.url(card),
+          colour = Load.colours[card["kind"].lower()],
+        )
+        # .set_thumbnail(url = disc.File())
+        .add_field(name = "Type", value = card["race"])
+        .add_field(name = "Kind", value = card["kind"])
+        .add_field(name = "Attribute", value = card["attribute"])
+        .add_field(name = "Level", value = card["level"])
+        .add_field(name = "ATK", value = card["attack"])
+        .add_field(name = "DEF", value = card["defense"])
+        .set_footer(text = "data sourced from the YGOPRODECK API")
+      ))
 
 
   ## autofill /load ##
-  @ card_with_id.on_autocomplete("card")
+  @ with_id.on_autocomplete("card")
   async def fill_card_id(self, ctx, card):
     q = f"id LIKE '{card}'"
     await self._autofill_(ctx, q)
   
-  @ card_with_name.on_autocomplete("card")
+  @ with_name.on_autocomplete("card")
   async def fill_card_name(self, ctx, card):
     q = f"name LIKE '%{card}%'"
     await self._autofill_(ctx, q)
