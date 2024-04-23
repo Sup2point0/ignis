@@ -11,10 +11,12 @@ from nextcord.ext import commands
 class Config(commands.Cog):
   '''Commands involving playing games.'''
 
+  admin = disc.Permissions(administrator = True)
+
   def __init__(self, bot):
     self.bot = bot
 
-  @ disc.slash_command()
+  @ disc.slash_command(default_member_permissions = admin)
   async def config(self, ctx):
     pass
 
