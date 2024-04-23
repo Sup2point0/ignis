@@ -1,4 +1,6 @@
+python-dotenv
 pytest
+tqdm
 aiohttp
 matplotlib
 tensorflow
