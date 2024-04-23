@@ -3,6 +3,7 @@ Ai.
 '''
 
 import os
+import traceback
 
 import nextcord as disc
 from nextcord import ui
@@ -41,6 +42,9 @@ async def on_application_command_error(ctx, error):
   await ctx.send("Error: Failed to execute command!",
     view = Visual(), ephemeral = True,
   )
+
+  trace = "\n".join(traceback.format_exception(error))
+  print(trace)
 
 
 def script():
