@@ -2,6 +2,8 @@
 Implements the `config` admin and debug slash commands.
 '''
 
+import sys
+
 import nextcord as disc
 from nextcord.ext import commands
 
@@ -20,4 +22,6 @@ class Config(commands.Cog):
   async def kill(self, ctx):
     '''kill the bot'''
 
-    raise Exception("killing the bot")
+    await ctx.send("killing the bot...", ephemeral = True)
+    await self.bot.close()
+    sys.exit()
