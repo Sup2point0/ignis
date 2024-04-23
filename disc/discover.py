@@ -47,7 +47,7 @@ class Discover(commands.Cog):
       await ctx.send("Error: Failed connecting to GitHub!")
       raise Discover.Keyless("cynex connection failed!")
 
-    with Github(auth = Auth.Token()) as git:
+    with Github(auth = Auth.Token(key)) as git:
       repo = git.get_repo("Sup2point0/Assort")
       content = repo.get_contents("Yu-Gi-Oh!")
 

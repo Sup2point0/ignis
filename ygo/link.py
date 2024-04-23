@@ -36,7 +36,8 @@ def url(card: dict) -> str:
   password = card["id"]
   url = (
     "https://yugipedia.com/api.php?action=askargs"
-    f"&conditions=Password::{password}&format=json"
+    f"&conditions=Password::{password}"
+    "]][[Category:Duel%20Monsters%20cards&format=json"
   )
 
   load = requests.get(url, headers = {"User-Agent": "Mozilla/5.0"})
