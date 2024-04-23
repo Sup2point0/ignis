@@ -6,6 +6,9 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ''
 
     steps:
       - name: 'Git – checkout'
