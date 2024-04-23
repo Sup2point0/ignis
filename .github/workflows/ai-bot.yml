@@ -18,6 +18,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+
+      - name: 'Git – checkout suptools'
+        uses: actions/checkout@v4
+        with:
+          repository: Sup2point0/suptools
+          path: suptools
   
       - name: 'Python – setup'
         uses: actions/setup-python@v5
