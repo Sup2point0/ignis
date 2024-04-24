@@ -12,12 +12,8 @@ from nextcord.ui import button
 from dotenv import load_dotenv
 
 import suptools as sup
+from .cogs import cogs
 # from ignis import Ai
-from .config import Config
-from .load import Load
-from .discover import Discover
-from .predict import Predict
-from .play import Play
 
 
 __version__ = "1.0.0"
@@ -53,7 +49,6 @@ def script():
 
   bot.remove_command("help")
 
-  cogs = [Config, Load, Discover, Predict, Play]
   for cog in cogs:
     bot.add_cog(cog(bot))
 
