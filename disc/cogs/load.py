@@ -134,15 +134,11 @@ class Load(commands.Cog):
   ## autofill /load ##
   @ with_id.on_autocomplete("card")
   async def fill_card_id(self, ctx, card):
-    await ctx.response.defer()
-
     q = f"id LIKE '{card}'"
     await self._autofill_(ctx, q)
   
   @ with_name.on_autocomplete("card")
   async def fill_card_name(self, ctx, card):
-    await ctx.response.defer()
-
     q = f"name LIKE '%{card}%'"
     await self._autofill_(ctx, q)
 
@@ -150,6 +146,6 @@ class Load(commands.Cog):
     '''Query the database to autofill a slash command.'''
     
     cards = ygo.sql.load_monsters_data(query)
-    out = [f'''{card["id"]} – {card["name"]}''' for card in cards[:13]]
+    out = [f'''{card["id"]} – {card["name"]}''' for card in cards[:12]]
 
     await ctx.response.send_autocomplete(out)

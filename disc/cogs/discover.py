@@ -11,12 +11,13 @@ import nextcord as disc
 from nextcord import Embed, SlashOption
 from nextcord import ui
 from nextcord.ext import commands
-
 from github import Github, Auth
 from github.ContentFile import ContentFile
+from fuzzywuzzy import process as fuzz
 
 import suptools as sup
 from .. import dyna
+from .error import ExceptionResponse
 
 
 ## NOTE Since PyGithub is synchronous (blocking), we lazy load as much as possible for these commands - first execution per lifetime may be slow as a result.
@@ -36,9 +37,13 @@ class Discover(commands.Cog):
 
 
   ## utils ##
-  class Keyless(Exception):
-    '''GitHub API key not found.'''
-
+  async def _check_loaded_(self, ctx, content: str):
+    '''Check if the content has been loaded, and if not, load it.'''
+    
+    if self.content[content] is None:
+      await ctx.response.defer()
+      await self._load_content_()
+  
   async def _load_content_(self, ctx):
     '''Synchronously fetch content from Assort through the GitHub API.
     
@@ -50,8 +55,7 @@ class Discover(commands.Cog):
 
     key = os.getenv("CYNEX")
     if key is None:
-      await ctx.send("Error: Failed connecting to GitHub!")
-      raise Discover.Keyless("cynex connection failed!")
+      raise ExceptionResponse("Cynex Error", "Failed to connect to GitHub")
 
     with Github(auth = Auth.Token(key)) as git:
       repo = git.get_repo("Sup2point0/Assort")
@@ -94,8 +98,6 @@ class Discover(commands.Cog):
   async def discover(self, ctx):
     pass
 
-
-  ## /discover archetype ##
   @ discover.subcommand()
   async def archetype(self, ctx,
     archetype: str = SlashOption(
@@ -105,10 +107,6 @@ class Discover(commands.Cog):
   ):
     '''discover a custom archetype'''
 
-    if self.content["archetypes"] is None:
-      await ctx.response.defer()
-      await self._load_data_(ctx)
-
     if archetype is None:
       archetype = random.choice(self.content["archetypes"].keys())
 
@@ -117,17 +115,23 @@ class Discover(commands.Cog):
     try:
       found = archetypes[archetype.casefold()]
     except KeyError:
-      await ctx.send("No archetype with this name found" + dyna.punct.select(), ephemeral = True)
+      await ctx.send(dyna.punctuate("No archetype with this name found"), ephemeral = True)
       return
-    
-    for line in found["content"]:
-      sup.log(line = line)
-
-      desc = b64decode(line)
 
     await ctx.send(embed = Embed(
       title = found["name"],
       url = "https://github.com/Sup2point0/Assort/blob/origin/" + found["path"],
-      description = desc,
+      description = found["content"],
       colour = 0x40f190,
     ))
+    
+  @ archetype.on_autocomplete("archetype")
+  async def fill_archetype(self, ctx, archetype):
+    self._check_loaded_(ctx, "archetypes")
+
+    out = list(sorted(
+      fuzz.extract(archetype, self.content["archetypes"].keys(), limit = 12),
+      key = lambda match: match[1],
+      reverse = True
+    ))
+    await ctx.response.send_autocomplete(out)

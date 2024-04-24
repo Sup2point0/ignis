@@ -13,7 +13,7 @@ class Predict(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-  @ disc.slash_command()
+  @ disc.slash_command(default_member_permissions = disc.Permissions(administrator = True))
   async def predict(self, ctx):
     pass
 

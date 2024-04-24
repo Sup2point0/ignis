@@ -7,6 +7,7 @@ import traceback
 
 import nextcord as disc
 from nextcord import Embed
+from nextcord.ext import commands
 from dotenv import load_dotenv
 
 import suptools as sup
