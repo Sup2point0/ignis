@@ -1,6 +1,3 @@
 [submodule "suptools"]
 	path = suptools
 	url = https://github.com/Sup2point0/suptools.git
-[submodule "weighted-list"]
-	path = weighted-list
-	url = https://github.com/Sup2point0/weighted-list
