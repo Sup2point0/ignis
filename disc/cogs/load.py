@@ -12,7 +12,6 @@ from nextcord.ui import View, Modal, button
 from nextcord.ext import commands
 
 import ygo
-from .silence import silence
 
 
 class Load(commands.Cog):
