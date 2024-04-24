@@ -1,10 +1,13 @@
 python-dotenv
 tqdm
 pytest
+
+requests
 aiohttp
 matplotlib
 fuzzywuzzy
 python-Levenshtein
+
 tensorflow
 keras
 PyGithub

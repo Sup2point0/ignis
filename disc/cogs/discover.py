@@ -13,7 +13,7 @@ from nextcord import ui
 from nextcord.ext import commands
 from github import Github, Auth
 from github.ContentFile import ContentFile
-from fuzzywuzzy import process as fuzz
+import fuzzywuzzy.process
 
 import suptools as sup
 from .. import dyna
@@ -129,9 +129,5 @@ class Discover(commands.Cog):
   async def fill_archetype(self, ctx, archetype):
     self._check_loaded_(ctx, "archetypes")
 
-    out = list(sorted(
-      fuzz.extract(archetype, self.content["archetypes"].keys(), limit = 12),
-      key = lambda match: match[1],
-      reverse = True
-    ))
+    out = fuzzywuzzy.process.extract(archetype, self.content["archetypes"].keys(), limit = 12)
     await ctx.response.send_autocomplete(out)

@@ -117,7 +117,7 @@ class Load(commands.Cog):
       await ctx.send(embed = (
         Embed(
           title = card["name"],
-          url = ygo.link.url(card),
+          url = ygo.api.fetch_card_url(card),
           colour = Load.colours[card["kind"].lower()],
         )
         # .set_thumbnail(url = disc.File())
