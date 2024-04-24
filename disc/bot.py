@@ -6,13 +6,15 @@ import os
 import traceback
 
 import nextcord as disc
+from nextcord import Embed
 from nextcord import ui
-from nextcord.ext import commands
 from nextcord.ui import button
+from nextcord.ext import commands
 from dotenv import load_dotenv
 
 import suptools as sup
 from .cogs import cogs
+from . import dyna
 # from ignis import Ai
 
 
@@ -31,12 +33,29 @@ async def on_application_command_error(ctx, error):
 
     @ button(label = "View Output", custom_id = "root.debug")
     async def debug(self, button, ctx):
-      out = f"```{error}```"
       button.disabled = True
-      await ctx.response.edit_message(content = out, view = self)
+      out = f"```{error}```"
+
+      await ctx.response.edit_message(
+        embed = Embed(
+          title = "Error",
+          decsription = out,
+          colour = 0x9040f1,
+        ),
+        view = self,
+      )
   
-  await ctx.send("Error: Failed to execute command!",
-    view = Visual(), ephemeral = True,
+  out = dyna.errors.select()
+  if not out.endswith((".", "!", "?", " ")):
+    out += dyna.punct.select()
+  
+  await ctx.send(ephemeral = True,
+    embed = Embed(
+      title = "Error",
+      description = out,
+      colour = 0xff0090,
+    ),
+    view = Visual(),
   )
 
   trace = "\n".join(traceback.format_exception(error))
