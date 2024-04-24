@@ -17,6 +17,9 @@ from github.Repository import Repository
 from github.ContentFile import ContentFile
 from github.GithubException import UnknownObjectException
 
+import suptools as sup
+from .. import dyna
+
 
 ## NOTE Since PyGithub is synchronous (blocking), we lazy load as much as possible for these commands - first execution per lifetime may be slow as a result.
 
@@ -27,11 +30,11 @@ class Discover(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-    self.content: dict[str, dict[str, bytes]] = {
+    self.content: dict[str, dict[str, str | dict]] = {
       "cards": None,
       "archetypes": None,
     }
-    '''Content from Assort. Initially stored as `bytes`, and lazily decoded to `str` when needed.'''
+    '''Content from Assort.'''
 
 
   ## utils ##
@@ -55,12 +58,21 @@ class Discover(commands.Cog):
     with Github(auth = Auth.Token(key)) as git:
       repo = git.get_repo("Sup2point0/Assort")
       
-      archetypes = repo.get_contents("Yu-Gi-Oh!/archetypes/")
-      self.content["archetypes"] = {
-        base64decode(BytesIO(file.content).readline()): file.content
-        for file in archetypes
-        if not "readme" in file.name.casefold()
+      content_archetypes = repo.get_contents("Yu-Gi-Oh!/archetypes/")
+    
+    archetypes = [
+      (file, sup.io.isplitlines_base64(file.content))
+      for file in content_archetypes if not "readme" in file.name.casefold()
+    ]
+
+    self.content["archetypes"] = {
+      name: {
+        "name": content[0].replace("# ", ""),
+        "content": content,
+        "path": file.path
       }
+      for file, content in archetypes
+    }
 
 
   ## /discover ##
@@ -86,5 +98,22 @@ class Discover(commands.Cog):
     if archetype is None:
       archetype = random.choice(self.content["archetypes"].keys())
 
-    content = BytesIO(self.content[archetype])
- 
+    archetypes = (key.casefold() for key in self.content["archetypes"])
+
+    try:
+      found = archetypes[archetype.casefold()]
+    except KeyError:
+      await ctx.send("No archetype with this name found" + dyna.punct.select(), ephemeral = True)
+      return
+    
+    for line in found["content"]:
+      sup.log(line = line)
+
+      desc = b64decode(line)
+
+    await ctx.send(embed = Embed(
+      title = found["name"],
+      url = "https://github.com/Sup2point0/Assort/blob/origin/" + found["path"],
+      description = desc,
+      colour = 0x40f190,
+    ))
