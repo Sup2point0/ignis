@@ -4,6 +4,8 @@ Implements the `/discover` family of slash commands.
 
 import os
 import random
+from base64 import b64decode
+from io import BytesIO
 
 import nextcord as disc
 from nextcord import Embed, SlashOption
@@ -25,7 +27,7 @@ class Discover(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-    self.content: list[bytes | str] = {
+    self.content: dict[str, dict[str, bytes]] = {
       "cards": None,
       "archetypes": None,
     }
@@ -36,11 +38,14 @@ class Discover(commands.Cog):
   class Keyless(Exception):
     '''GitHub API key not found.'''
 
-  async def _load_data_(self, ctx):
-    '''Asynchronously get custom content from Assort through the GitHub API.
+  async def _load_content_(self, ctx):
+    '''Synchronously fetch content from Assort through the GitHub API.
     
     This will only be called once per bot lifespan.
     '''
+
+    # change it from `None`, so that we know we’re already loading
+    self.content["archetypes"] = {}
 
     key = os.getenv("CYNEX")
     if key is None:
@@ -49,17 +54,13 @@ class Discover(commands.Cog):
 
     with Github(auth = Auth.Token(key)) as git:
       repo = git.get_repo("Sup2point0/Assort")
-      content = repo.get_contents("Yu-Gi-Oh!")
-
-      while content:
-        file = content.pop(0)
-
-        if file.type == "dir":
-          folder = repo.get_contents(file.path)
-          content.extend(folder)
-
-        elif file.path.endswith(".md"):
-          self.content.append(file.content)
+      
+      archetypes = repo.get_contents("Yu-Gi-Oh!/archetypes/")
+      self.content["archetypes"] = {
+        base64decode(BytesIO(file.content).readline()): file.content
+        for file in archetypes
+        if not "readme" in file.name.casefold()
+      }
 
 
   ## /discover ##
@@ -78,10 +79,12 @@ class Discover(commands.Cog):
   ):
     '''discover a custom archetype'''
 
-    if not self.content["archetypes"]:
+    if self.content["archetypes"] is None:
       await ctx.response.defer()
       await self._load_data_(ctx)
 
     if archetype is None:
-      archetype = random.choice(self.content["archetypes"])
+      archetype = random.choice(self.content["archetypes"].keys())
+
+    content = BytesIO(self.content[archetype])
  
