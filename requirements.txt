@@ -3,6 +3,8 @@ tqdm
 pytest
 aiohttp
 matplotlib
+fuzzywuzzy
+python-Levenshtein
 tensorflow
 keras
 PyGithub
