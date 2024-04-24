@@ -5,7 +5,7 @@ Implements the `/discover` family of slash commands.
 import os
 import random
 from base64 import b64decode
-from io import BytesIO
+from io import StringIO
 
 import nextcord as disc
 from nextcord import Embed, SlashOption
@@ -13,9 +13,7 @@ from nextcord import ui
 from nextcord.ext import commands
 
 from github import Github, Auth
-from github.Repository import Repository
 from github.ContentFile import ContentFile
-from github.GithubException import UnknownObjectException
 
 import suptools as sup
 from .. import dyna
@@ -58,21 +56,37 @@ class Discover(commands.Cog):
     with Github(auth = Auth.Token(key)) as git:
       repo = git.get_repo("Sup2point0/Assort")
       
-      content_archetypes = repo.get_contents("Yu-Gi-Oh!/archetypes/")
-    
-    archetypes = [
-      (file, sup.io.isplitlines_base64(file.content))
-      for file in content_archetypes if not "readme" in file.name.casefold()
-    ]
+      archetypes = repo.get_contents("Yu-Gi-Oh!/archetypes/")
 
     self.content["archetypes"] = {
-      name: {
-        "name": content[0].replace("# ", ""),
-        "content": content,
-        "path": file.path
-      }
-      for file, content in archetypes
+      self._load_file_details_(file)
+      for file in archetypes if not "readme" in file.name.casefold()
     }
+
+  def _load_file_details_(self, file) -> dict:
+    out = {
+      "name": "",
+      "content": "",
+      "path": file.path,
+    }
+
+    content = StringIO()
+
+    for line in sup.io.decode_base64_lines(file.content, lines = 10):
+      if not out["name"]:
+        if line.startswith("# "):
+          out["name"] = line[2:]
+      
+      else:
+        if ">" in line:
+          continue
+        if "##" in line or "<br>" in line:
+          break
+        content.write(line + "\n")
+
+    out["content"] = content.getvalue()
+
+    return out
 
 
   ## /discover ##
