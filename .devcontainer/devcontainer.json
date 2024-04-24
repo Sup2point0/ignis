@@ -1,0 +1,18 @@
+{
+  "customizations": {
+    "codespaces": {
+      "repositories": {
+        "Sup2point0/ignis": {
+          "permissions": {
+            "contents": "write"
+          }
+        },
+        "Sup2point0/weighted-list": {
+          "permissions": {
+            "contents": "write"
+          }
+        }
+      }
+    }
+  }
+}
