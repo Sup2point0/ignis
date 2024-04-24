@@ -1,8 +1,9 @@
 python-dotenv
-pytest
 tqdm
+pytest
 aiohttp
 matplotlib
 tensorflow
 keras
+PyGithub
 nextcord
