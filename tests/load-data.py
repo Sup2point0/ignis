@@ -1,5 +1,5 @@
 '''
-Test that we can load the art for a card from the bytes stored in the database.
+Tests for loading data from local files.
 '''
 
 import random
