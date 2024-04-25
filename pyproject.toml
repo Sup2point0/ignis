@@ -1,10 +1,10 @@
 [project]
 name = "ignis"
-description = "Various projects involving the Yu-Gi-Oh! card game, including asynchronous API requests, database querying, machine learning, and a Discord bot!"
+description = "Various projects involving the Yu-Gi-Oh! card game, including asynchronous API requests, SQL database querying, machine learning, and a Discord bot!"
 readme = "README.md"
 authors = [{name = "Sup#2.0"}]
 license = {file = "LICENSE"}
-requires-python = ">= 3.10"
+requires-python = ">= 3.12"
 dependencies = [
   "aiohttp",
   "tensorflow",
