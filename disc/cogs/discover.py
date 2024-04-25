@@ -41,8 +41,8 @@ class Discover(commands.Cog):
     '''Check if the content has been loaded, and if not, load it.'''
     
     if self.content[content] is None:
-      await ctx.response.defer()
-      await self._load_content_()
+      # await ctx.response.defer()
+      await self._load_content_(ctx)
   
   async def _load_content_(self, ctx):
     '''Synchronously fetch content from Assort through the GitHub API.
@@ -60,7 +60,7 @@ class Discover(commands.Cog):
     with Github(auth = Auth.Token(key)) as git:
       repo = git.get_repo("Sup2point0/Assort")
       
-      archetypes = repo.get_contents("Yu-Gi-Oh!/archetypes/")
+      archetypes = repo.get_contents("Yu-Gi-Oh!/archetypes")
 
     self.content["archetypes"] = {
       self._load_file_details_(file)
@@ -107,6 +107,8 @@ class Discover(commands.Cog):
   ):
     '''discover a custom archetype'''
 
+    await self._check_loaded_(ctx, "archetypes")
+
     if archetype is None:
       archetype = random.choice(self.content["archetypes"].keys())
 
@@ -127,7 +129,7 @@ class Discover(commands.Cog):
     
   @ archetype.on_autocomplete("archetype")
   async def fill_archetype(self, ctx, archetype):
-    self._check_loaded_(ctx, "archetypes")
+    await self._check_loaded_(ctx, "archetypes")
 
     out = fuzzywuzzy.process.extract(archetype, self.content["archetypes"].keys(), limit = 12)
     await ctx.response.send_autocomplete(out)

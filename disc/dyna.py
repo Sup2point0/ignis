@@ -2,11 +2,7 @@
 Stores dynamic response text.
 '''
 
-# Unfortunately, importing weighted-list takes a little fiddling due to the hyphen in the name...
-import importlib
-
-# FrozenWeightedList = importlib.import_module("weighted-list.Python.frozen_weighted_list").FrozenWeightedList
-FrozenWeightedList = importlib.import_module("weighted-list.Python.weightedlist", "ignis").WeightedList
+from suptools import WeightedList as FrozenWeightedList
 
 
 def punctuate(text) -> str:
