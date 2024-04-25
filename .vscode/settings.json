@@ -1,6 +1,7 @@
 {
   "python.testing.pytestArgs": [
-    "tests/card-art.py"
+    "tests/fetch-data.py",
+    "tests/load-data.py"
   ],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
