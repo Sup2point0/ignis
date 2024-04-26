@@ -16,17 +16,14 @@ from . import dyna
 # from ignis import Ai
 
 
-__version__ = "1.0.0"
-
-bot = commands.Bot(intents = disc.Intents.none())
-
-
 def script():
-  load_dotenv()
   # run this first, since some cogs depend on environment variables
+  load_dotenv()
 
+  bot = commands.Bot(intents = disc.Intents.none())
+  bot.__version__ = "1.1.0"
+  
   bot.remove_command("help")
-
   for cog in cogs:
     bot.add_cog(cog(bot))
 
