@@ -104,6 +104,7 @@ class Play(commands.Cog):
     await root.edit(embed = embed.set_footer(text = "Ongoing"))
     await self.run_ygordle_word(ctx, game, thread)
 
+    self.games["ygordle-word"] = None
     await root.edit(embed = embed.set_footer(text = "Finished"))
 
   def pick_ygordle_word(self, source: str):
