@@ -29,6 +29,25 @@ class Play(commands.Cog):
     }
     '''Games in progress.'''
 
+  ## utility ##
+  class GameEmbed(Embed):
+    '''An embed sent as the root message where game threads are created.'''
+    
+    def __init__(game: str, *, player: disc.User):
+      super().__init__()
+      
+      self.title = game
+      self.description = ""
+      self.colour = colours[game]
+      self.set_footer(text = "Initialising...")
+      self.set_author(name = player.display_name, icon_url = player.avatar.url)
+
+    def set_desc(self, content: str) -> GameEmbed:
+      '''Set description of embed and return the modified instance.'''
+
+      self.description = content
+      return self
+
   @ disc.slash_command()
   async def play(self, ctx):
     pass
@@ -57,41 +76,30 @@ class Play(commands.Cog):
       await ctx.send(dyna.punctuate("Sorry, game in progress"), ephemeral = True)
       return
 
-    embed = Play.WordEmbed().set_footer(text = "Initialising...")
-    view = Play.WordView()
+    game = Play.WordGame()
+    self.games["ygordle-word"] = game
+
+    embed = Play.GameEmbed("YGORDLE (word)", player = ctx.user)
+    view = Play.WordView(game)
     root = await ctx.send(embed = embed, view = view)
     
     thread = await root.create_thread(name = "YGORDLE (word)", auto_archive_duration = 60)
     join = await thread.send(ctx.user.mention)
     await join.delete()
 
-    game = Play.WordGame()
-    self.games["ygordle-word"] = game
-
     await root.edit(embed = embed.set_footer(text = "Ongoing"))
     await self.run_ygordle_word(game, thread)
-
-  class WordEmbed(Embed):
-    def __init__(desc = "", *, player: disc.User):
-      self.player = player
-      self.reset(desc = desc)
-
-    def reset(desc: str):
-      self.title = "YGORDLE (word)"
-      self.description = desc
-      self.colour = colours.pink.nova
-      self.set_footer(text = "Synchronising...")
-      self.set_author(name = self.player.display_name, icon_url = self.player.avatar.url)
 
   class WordView(ui.View):
     '''The view for a word YGORDLE root message.'''
     
-    def __init__(self):
+    def __init__(self, game):
+      self.game = game
       super().__init__(timeout = None)
 
     @ button(label = "Cancel", style = ButtonStyle.danger, custom_id = "ygordle.word.cancel")
     async def cancel(self, button, ctx):
-      pass
+      self.game.live = False
 
   class WordGame:
     '''A word YGORDLE game instance.'''
