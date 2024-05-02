@@ -1,7 +1,6 @@
 {
   "python.testing.pytestArgs": [
-    "tests/fetch-data.py",
-    "tests/load-data.py"
+    "tests"
   ],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
