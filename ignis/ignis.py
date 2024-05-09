@@ -2,10 +2,10 @@
 Implements the `Ignis` base class for Ignis to derive from.
 '''
 
-import tensorflow as tf
+# import tensorflow as tf
 from tensorflow import keras
 from keras import layers
-from keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 import suptools as sup
 import ygo
@@ -103,26 +103,25 @@ class Ignis:
     query = '''attribute = "WATER" or attribute = "FIRE"'''
     cards = ygo.sql.load_monsters_data(query)
 
-    data = (
-      (
-        keras.utils.img_to_array(
-          ygo.link.bytes_to_image(card["art"])
-        ),
-        card["attribute"]
+    x = (
+      keras.utils.img_to_array(
+        ygo.link.bytes_to_image(card["art"])
       )
       for card in cards
     )
 
-    tf.data.Dataset.from_tensor_slices(data)
+    y = (card["attribute"] for card in cards)
 
-    source = (ImageDataGenerator(rescale = 1/255)
-      .flow_from_dataframe()
-    )
+    return x, y
 
-    self.data["training"] = training.flow_from_dataframe(
-      cards,
-      # directory = "../assets/images/",
-      target_size = (624, 624),
-      batch_size = 42,
-      class_mode = "categorical",
-    )
+    # source = (ImageDataGenerator(rescale = 1/255)
+    #   .flow_from_dataframe()
+    # )
+
+    # self.data["training"] = training.flow_from_dataframe(
+    #   cards,
+    #   # directory = "../assets/images/",
+    #   target_size = (624, 624),
+    #   batch_size = 42,
+    #   class_mode = "categorical",
+    # )
