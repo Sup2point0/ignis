@@ -2,7 +2,7 @@
 Stores dynamic response text.
 '''
 
-from suptools import WeightedList as FrozenWeightedList
+from suptools.wl import WeightedList as FrozenWeightedList
 
 
 def punctuate(text) -> str:

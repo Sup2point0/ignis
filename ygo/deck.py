@@ -1,3 +1,7 @@
+'''
+Handles loading decks from XML files exported from DuelingBook.
+'''
+
 import xml.etree.ElementTree as et
 from collections import Counter
 
