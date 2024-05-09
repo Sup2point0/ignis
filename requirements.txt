@@ -4,11 +4,12 @@ pytest
 
 requests
 aiohttp
-matplotlib
 fuzzywuzzy
 python-Levenshtein
 
+sqlalchemy
 tensorflow
 keras
-PyGithub
+matplotlib
 nextcord
+PyGithub
