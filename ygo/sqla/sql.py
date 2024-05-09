@@ -1,14 +1,11 @@
 import sqlalchemy as sqla
-from sqlalchemy import MetaData, Table, Column
-from sqlalchemy import Integer, String
 from sqlalchemy.orm import Session
 
 from classes import Card, CardArt
 from classes.base import Base
 
 
-# ENGINE = sqla.create_engine("sqlite:///../assets/data/cards-data.db")
-ENGINE = sqla.create_engine("sqlite:///:memory:", echo = True)
+ENGINE = sqla.create_engine("sqlite:///../assets/data/cards-data-v2.db", echo = True)
 
 
 def setup_database():
