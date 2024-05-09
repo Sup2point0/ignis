@@ -8,24 +8,25 @@ def script():
   
   import ygo
 
-  DECK = "Vengeance"
+  DECK = "Essence"
+  line = "\n"
 
-  with open(f"../assets/data/{DECK}.xml", "r") as file:
+  with open(f"../assets/data/{DECK.lower()}.xml", "r") as file:
     data = ygo.deck.load(file.read())
 
   sup.log(data = data)
 
   content = f'''
-  # {DECK}
+  # {DECK}
 
   <table>
     <tr>
       <td> total cards </td>
-      <td> {sum(deck.get("cards-total", 0) for deck in data)}
+      <td> {sum(data.get("cards-total", 0) for deck in data)}
     </tr>
     <tr>
       <td> unique cards </td>
-      <td> {sum(deck.get("cards-unique", 0) for deck in data)}
+      <td> {sum(data.get("cards-unique", 0) for deck in data)}
     </tr>
   </table>
 
@@ -42,22 +43,22 @@ def script():
     </tr>
   </table>
   
-  {"  \n  ".join(card for card in data["main"])}
+  {f"  {line}  ".join(card for card in data["main"])}
 
   ## Extra Deck
 
   <table>
     <tr>
       <td> total cards </td>
-      <td> {sum(deck.get("cards-total", 0) for deck in data)}
+      <td> {sum(data.get("cards-total", 0) for deck in data)}
     </tr>
     <tr>
       <td> unique cards </td>
-      <td> {sum(deck.get("cards-unique", 0) for deck in data)}
+      <td> {sum(data.get("cards-unique", 0) for deck in data)}
     </tr>
   </table>
   
-  {"  \n  ".join(card for card in data["extra"])}
+  {f"  {line}  ".join(card for card in data["extra"])}
   '''
 
   with open(f"../assets/out/{DECK}.md", "w") as file:

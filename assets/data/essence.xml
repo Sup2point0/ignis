@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<deck name="Essence">
+ <main>
+  <card id="4450370" passcode="">Ninjato</card>
+  <card id="4450370" passcode="">Ninjato</card>
+  <card id="4450370" passcode="">Ninjato</card>
+  <card id="4450375" passcode="">Silent Assassin</card>
+  <card id="4450375" passcode="">Silent Assassin</card>
+  <card id="4450378" passcode="">Wizardo</card>
+  <card id="4450379" passcode="">Faithful Cleric</card>
+  <card id="4450379" passcode="">Faithful Cleric</card>
+  <card id="4450379" passcode="">Faithful Cleric</card>
+  <card id="4450381" passcode="">Berserker Blader</card>
+  <card id="4450384" passcode="">Spellblade</card>
+  <card id="4450384" passcode="">Spellblade</card>
+  <card id="4450385" passcode="">Ghostblade</card>
+  <card id="4450385" passcode="">Ghostblade</card>
+  <card id="4450411" passcode="">Arcane Battlemage</card>
+  <card id="4450411" passcode="">Arcane Battlemage</card>
+  <card id="4450413" passcode="">Legendary Dragon Spirit</card>
+  <card id="4450413" passcode="">Legendary Dragon Spirit</card>
+  <card id="4450515" passcode="">Manifestation Fusion</card>
+  <card id="4450515" passcode="">Manifestation Fusion</card>
+  <card id="4450518" passcode="">Manifestation Magic</card>
+  <card id="4450518" passcode="">Manifestation Magic</card>
+  <card id="4450531" passcode="">Manifestation Manoeuvres</card>
+  <card id="4450531" passcode="">Manifestation Manoeuvres</card>
+  <card id="4450535" passcode="">Ninja Dojo</card>
+  <card id="4450535" passcode="">Ninja Dojo</card>
+  <card id="4450535" passcode="">Ninja Dojo</card>
+  <card id="4450541" passcode="">Ninja Manifestation</card>
+  <card id="4450541" passcode="">Ninja Manifestation</card>
+  <card id="4450541" passcode="">Ninja Manifestation</card>
+  <card id="4450542" passcode="">Ninja Artifice</card>
+  <card id="4450547" passcode="">Ghostplay</card>
+  <card id="4450559" passcode="">Whirling Tornado Slash</card>
+  <card id="4450567" passcode="">Quick Vanish</card>
+  <card id="4450567" passcode="">Quick Vanish</card>
+  <card id="4450567" passcode="">Quick Vanish</card>
+  <card id="4450572" passcode="">Quick Refresh</card>
+  <card id="4450575" passcode="">Night Walker</card>
+  <card id="4450580" passcode="">Shadow Walker</card>
+  <card id="4450585" passcode="">Myriad Manifestation Umbrella</card>
+  <card id="4450588" passcode="">Myriad Manoeuvres</card>
+  <card id="4450593" passcode="">Spellcasters&#39; Sanctuary</card>
+  <card id="4450593" passcode="">Spellcasters&#39; Sanctuary</card>
+  <card id="4450593" passcode="">Spellcasters&#39; Sanctuary</card>
+  <card id="4450595" passcode="">Dragon Head Rising</card>
+  <card id="3948531" passcode="">Bloody Blossoms of the Afterlife</card>
+  <card id="3544063" passcode="">Instant Draw</card>
+  <card id="3544063" passcode="">Instant Draw</card>
+  <card id="3654739" passcode="">Quick Polymerization</card>
+  <card id="3654739" passcode="">Quick Polymerization</card>
+  <card id="3654750" passcode="">Hybrid Polymerization</card>
+  <card id="3686976" passcode="">Rakurai</card>
+  <card id="3763590" passcode="">Final Vanquish</card>
+  <card id="4439442" passcode="">Divine Destiny</card>
+  <card id="4431382" passcode="">Really Painful Choice</card>
+  <card id="3544060" passcode="">Infinite Impertinence</card>
+  <card id="3627620" passcode="">Terrorforming</card>
+  <card id="4439440" passcode="">Descendant of Drakon</card>
+  <card id="3744272" passcode="">Awakening the Drakon</card>
+ </main>
+ <side>
+ </side>
+ <extra>
+  <card id="3434742" passcode="">Ninjax</card>
+  <card id="4450416" passcode="">Ninjato of the Silent Arts</card>
+  <card id="4450416" passcode="">Ninjato of the Silent Arts</card>
+  <card id="4450439" passcode="">Ninjato of the Mystical Arts</card>
+  <card id="4450443" passcode="">Ninjato of the Sealing Arts</card>
+  <card id="4450448" passcode="">Ninjato of the Arcane Arts</card>
+  <card id="4450450" passcode="">Ninjato of the Master Arts</card>
+  <card id="4450450" passcode="">Ninjato of the Master Arts</card>
+  <card id="4450455" passcode="">Ninjato of the Sacred Arts</card>
+  <card id="4450459" passcode="">Ninjato of the Shadow Arts</card>
+  <card id="4450465" passcode="">Dancing Rain</card>
+  <card id="4450471" passcode="">Architechnician</card>
+  <card id="4450475" passcode="">Unspecialized</card>
+  <card id="4450479" passcode="">Lone Autumn Leaf</card>
+  <card id="4433382" passcode="">The Awakened Drakon</card>
+ </extra>
+</deck>
