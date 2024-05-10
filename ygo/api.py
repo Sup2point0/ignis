@@ -11,7 +11,7 @@ import fuzzywuzzy.process
 from tqdm import tqdm
 
 import suptools as sup
-from . import link, sql
+from . import sql
 from .classes import Card
 
 
