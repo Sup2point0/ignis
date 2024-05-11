@@ -13,11 +13,11 @@ def script():
 
   with open("../assets/data/cards-data.json", "r") as file:
     # data = json.load(file)
-    data = random.choices(json.load(file), k = 20)
+    data = random.choices(json.load(file), k = 2)
   
   cards = (ygo.Card.from_dict(card) for card in data)
-  ygo.sql.setup_database()
-  ygo.sql.update_cards(cards)
+  ygo.sql.refresh_database()
+  ygo.sql.save(cards)
 
 
 if __name__ == "__main__":

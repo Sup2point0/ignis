@@ -15,8 +15,11 @@ class Card(Base):
   card_id: Mp[int] = mc(primary_key = True)
   name: Mp[str]
   card_type: Mp[str]
-  kind: Mp[str]
   race: Mp[str]
+  '''Either the monster type or the Spell/Trap property.'''
+
+  ## MONSTER-EXCLUSIVE ##
+  kind: Mp[Opt[str]]
   attribute: Mp[Opt[str]]
   level: Mp[Opt[str]]
   attack: Mp[Opt[int]]
@@ -25,7 +28,13 @@ class Card(Base):
   is_pend: Mp[Opt[bool]]
 
   def __repr__(self):
-    return f"Card(id = {self.card_id} | name = {self.name} | type = {self.card_type} | info = {self.race}/{self.attribute.upper()}/Lv{self.level}/ATK {self.attack}/DEF {self.defense})"
+    return (
+      f"Card(id = {self.card_id} | name = {self.name} | type = {self.card_type} " + (
+        f"| info = {self.race}/{self.attribute.upper()}/Lv{self.level}/ATK {self.attack}/DEF {self.defense}"
+        if self.card_type == "monster" else
+        f"| property = {self.race}"
+      ) + ")"
+    )
 
   @ staticmethod
   def sanitise_type(text: str) -> str:
@@ -48,9 +57,9 @@ class Card(Base):
       card_id = data["id"],
       name = data["name"],
       card_type = card_type,
-      kind = data["frameType".split("_")[0]].lower(),
       race = data["race"].lower(),
       **({
+        "kind": data["frameType".split("_")[0]].lower(),
         "attribute": data["attribute"].upper(),
         "level": data.get("level", data.get("linkval")),
         "attack": data["atk"],
