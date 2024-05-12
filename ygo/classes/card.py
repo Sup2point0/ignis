@@ -14,3 +14,5 @@ class Card(DeclarativeBase):
       return "spell"
     if "trap" in text:
       return "trap"
+    
+    return "UNKNOWN"

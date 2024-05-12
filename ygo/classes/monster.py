@@ -24,7 +24,7 @@ class MonsterCard(Card):
   attribute: Mp[str]
   level: Mp[str]
   attack: Mp[int]
-  defense: Mp[int]
+  defense: Mp[Opt[int]]
   is_effect: Mp[bool]
   is_pend: Mp[bool]
 

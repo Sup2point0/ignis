@@ -13,7 +13,7 @@ from .classes import Card, CardArt
 
 
 ROUTE = "../assets/data/cards-data-v2.db"
-ENGINE = sqla.create_engine(f"sqlite:///{ROUTE}", echo = True)
+ENGINE = sqla.create_engine(f"sqlite:///{ROUTE}", echo = False)
 
 
 def refresh_database():
