@@ -6,6 +6,7 @@ def script():
   Load data from the local JSON file and save it to the database.
   '''
 
+  import itertools
   import json
   import random
 
@@ -15,9 +16,10 @@ def script():
     # data = json.load(file)
     data = random.choices(json.load(file), k = 20)
   
-  cards = (ygo.link.cards_and_art_from_json(card) for card in data)
+  load = (ygo.link.cards_and_art_from_json(card) for card in data)
+  assets = (asset for card in load for asset in card)
   ygo.sql.refresh_database()
-  ygo.sql.save(cards)
+  ygo.sql.save(assets)
 
 
 if __name__ == "__main__":

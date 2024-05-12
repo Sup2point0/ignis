@@ -25,7 +25,7 @@ def refresh_database():
   Card.metadata.create_all(ENGINE, checkfirst = False)
 
 
-def save(cards: list[Card]):
+def save(cards: Iterable[Card]):
   with Session(ENGINE) as cnx:
     cnx.add_all(cards)
     cnx.commit()
