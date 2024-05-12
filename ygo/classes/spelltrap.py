@@ -10,7 +10,7 @@ from .card import Card
 from .art import CardArt
 
 
-class SpellTrap(Card):
+class SpellTrapCard(Card):
   '''A Spell or Trap card.'''
 
   __tablename__ = "SpellTraps"
@@ -19,7 +19,7 @@ class SpellTrap(Card):
   name: Mp[str]
   card_type: Mp[str]
   property: Mp[str]
-  
+
   def __repr__(self):
     return (
       f"Card(id = {self.card_id} | name = {self.name} | type = {self.card_type} " + (
@@ -30,12 +30,12 @@ class SpellTrap(Card):
     )
   
   @ staticmethod
-  def from_dict(data: dict) -> tuple[Card, CardArt]:
+  def from_dict(data: dict) -> tuple[SpellTrapCard, CardArt]:
     '''Create a card with data in a JSON `dict` from the YGOPRODECK API.'''
 
     card_type = Card.sanitise_type(data["type"])
 
-    return Card(
+    return SpellTrapCard(
       card_id = data["id"],
       name = data["name"],
       card_type = card_type,

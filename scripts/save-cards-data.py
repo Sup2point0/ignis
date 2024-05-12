@@ -13,9 +13,9 @@ def script():
 
   with open("../assets/data/cards-data.json", "r") as file:
     # data = json.load(file)
-    data = random.choices(json.load(file), k = 2)
+    data = random.choices(json.load(file), k = 20)
   
-  cards = (ygo.Card.from_dict(card) for card in data)
+  cards = (ygo.link.from_dict(card) for card in data)
   ygo.sql.refresh_database()
   ygo.sql.save(cards)
 

@@ -10,7 +10,6 @@ import sqlalchemy as sqla
 from sqlalchemy.orm import Session
 
 from .classes import Card, CardArt
-from .classes.base import Base
 
 
 ROUTE = "../assets/data/cards-data-v2.db"
@@ -23,16 +22,16 @@ def refresh_database():
   if pathlib.Path(ROUTE).exists():
     os.remove(ROUTE)
 
-  Base.metadata.create_all(ENGINE, checkfirst = False)
+  Card.metadata.create_all(ENGINE, checkfirst = False)
 
 
-def save(cards: list[Base]):
+def save(cards: list[Card]):
   with Session(ENGINE) as cnx:
     cnx.add_all(cards)
     cnx.commit()
 
 
-def load(table: Base, constraints: list[Callable]) -> Iterable[Base]:
+def load(table: Card, constraints: list[Callable]) -> Iterable[Card]:
   with Session(ENGINE) as cnx:
     query = sqla.scalars(table)
     for constraint in constraints:
