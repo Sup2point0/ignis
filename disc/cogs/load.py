@@ -4,6 +4,7 @@ Implements the `load` family of slash commands.
 
 import random
 from io import BytesIO
+from typing import Iterable, Callable
 
 import nextcord as disc
 from nextcord import Embed, SlashOption, SelectOption
@@ -48,7 +49,10 @@ class Load(commands.Cog):
   class CardNotFound(Exception):
     '''No card was found.'''
 
-  async def _find_(self, ctx, constraints: str = None, rand = False) -> list:
+  async def _find_(self, ctx,
+    constraints: Iterable[Callable] = [],
+    rand = False,
+  ) -> ygo.Card:
     '''Try to find a card from the database.
     
     If none is found, send an error message and raise `CardNotFound`.
@@ -56,13 +60,18 @@ class Load(commands.Cog):
 
     await ctx.response.defer()
 
-    data = ygo.sql.load_monsters_data(constraints)
+    monsters = ygo.sql.load(ygo.Card, constraints)
+    spelltraps = ygo.sql.load(ygo.SpellTrap, constraints)
+    found = (monsters or spelltraps)
 
-    if not data:
+    if not found:
       await ctx.send("No card found!", ephemeral = True)
       raise Load.CardNotFound()
     
-    return random.choice(data) if rand else data[0]
+    if rand:
+      return random.choice(found)
+    else:
+      return found[0]
 
 
   ## /load ##
@@ -81,7 +90,7 @@ class Load(commands.Cog):
     '''load info for a card from the database, searching by ID'''
 
     found = await self._find_(ctx,
-      constraints = f"id = {card}" if card else None,
+      constraints = lambda: ygo.MonsterCard.card_id == card,
       rand = not card
     )
 
