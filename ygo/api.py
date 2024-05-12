@@ -15,7 +15,13 @@ from . import sql
 from .classes import Card
 
 
+LOG = "../assets/data/fetch-log.json"
+
+
 def fetch_cards_data(**kwargs) -> dict:
+  with open(LOG, "r") as file:
+    log = json.load(file)
+  
   request = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
   if kwargs:
     request += "?" + "&".join(f"{key}={val}" for key, val in kwargs.items())
