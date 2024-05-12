@@ -15,7 +15,7 @@ def script():
     # data = json.load(file)
     data = random.choices(json.load(file), k = 20)
   
-  cards = (ygo.link.from_dict(card) for card in data)
+  cards = (ygo.link.cards_and_art_from_json(card) for card in data)
   ygo.sql.refresh_database()
   ygo.sql.save(cards)
 

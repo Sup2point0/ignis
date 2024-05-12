@@ -32,7 +32,7 @@ class MonsterCard(Card):
     return f"Card(id = {self.card_id} | name = {self.name} | type = {self.card_type} | info = {self.race}/{self.attribute.upper()}/Lv{self.level}/ATK {self.attack}/DEF {self.defense})"
 
   @ staticmethod
-  def from_dict(data: dict) -> tuple[MonsterCard, CardArt]:
+  def from_json(data: dict) -> tuple[MonsterCard, CardArt]:
     '''Create a card with data in a JSON `dict` from the YGOPRODECK API.'''
 
     card_type = Card.sanitise_type(data["type"])

@@ -30,7 +30,7 @@ class SpellTrapCard(Card):
     )
   
   @ staticmethod
-  def from_dict(data: dict) -> tuple[SpellTrapCard, CardArt]:
+  def from_json(data: dict) -> tuple[SpellTrapCard, CardArt]:
     '''Create a card with data in a JSON `dict` from the YGOPRODECK API.'''
 
     card_type = Card.sanitise_type(data["type"])

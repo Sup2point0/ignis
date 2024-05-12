@@ -8,19 +8,21 @@ from typing import Iterable
 from PIL import Image
 
 import suptools as sup
-from .classes import Card, MonsterCard, CardArt
+from .classes import Card, MonsterCard, SpellTrapCard, CardArt
 
 
-@ sup.vitals(catch = Exception)
-def cards_and_art_from_json(data: dict) -> Iterable[Card | MonsterCard | CardArt]:
+@ sup.vitals(catch = None)
+def cards_and_art_from_json(data: dict) -> Iterable[Card | CardArt]:
   '''Extract `Card` (or subclass) and `CardArt` objects from API JSON data.'''
 
   type = data["type"].casefold()
   
   if "monster" in type:
-    return MonsterCard.from_dict(data)
+    card = MonsterCard.from_json(data)
   else:
-    return Card.from_dict(data)
+    card = SpellTrapCard.from_json(data)
+
+  
 
 
 def bytes_to_image(data: bytes) -> Image:
