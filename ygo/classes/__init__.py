@@ -3,4 +3,6 @@ Implements utility classes for easier interaction with SQL and the YGOPRODECK AP
 '''
 
 from .card import Card
+from .monster import MonsterCard
+
 from .art import CardArt

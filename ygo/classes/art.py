@@ -1,12 +1,15 @@
 from sqlalchemy import ForeignKey
+from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped as Mp
 from sqlalchemy.orm import mapped_column as mc
 
-from .base import Base
+
+class Base(DeclarativeBase):
+  pass
 
 
 class CardArt(Base):
-  __tablename__ = "arts"
+  __tablename__ = "CardArts"
 
   art_id: Mp[int] = mc(primary_key = True)
   card_id = mc(ForeignKey("cards.card_id"))
