@@ -17,7 +17,6 @@ def script():
   
   load = (ygo.link.cards_and_art_from_json(card) for card in data)
   assets = (asset for card in load for asset in card)
-  ygo.sql.refresh_database()
   ygo.sql.save(assets)
 
 

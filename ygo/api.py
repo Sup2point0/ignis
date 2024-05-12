@@ -4,6 +4,9 @@ Handles interaction with the YGOPRODECK and Yugipedia APIs.
 
 import asyncio
 import json
+import shutil
+from io import BytesIO
+from typing import Iterable
 
 import requests
 import aiohttp
@@ -12,14 +15,11 @@ from tqdm import tqdm
 
 import suptools as sup
 from . import sql
-from .classes import Card
-
-
-LOG = "../assets/data/fetch-log.json"
+from .classes import Card, CardArt
 
 
 def fetch_cards_data(**kwargs) -> dict:
-  with open(LOG, "r") as file:
+  with open("../assets/data/fetch-log.json", "r") as file:
     log = json.load(file)
   
   request = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
@@ -42,15 +42,17 @@ def save_cards_data(data: dict):
     sup.io.save_json(data, file)
 
 
-async def async_fetch_card_art(ctx: aiohttp.ClientSession, card: Card, **kwargs):
-  '''Asynchronously get and set the art for a card given its ID.'''
+async def async_save_card_art(ctx: aiohttp.ClientSession, card: CardArt, **kwargs):
+  '''Asynchronously fetch and save the art for a card given its ID.'''
 
-  url = f"https://images.ygoprodeck.com/images/cards_cropped/{card.id}.jpg"
+  url = f"https://images.ygoprodeck.com/images/cards_cropped/{card.art_id}.jpg"
 
   async with ctx.get(url, **kwargs) as response:
-    card.art = await response.read()
+    load = await response.read()
 
-  # sup.log(collected = card.name)
+  with open(f"../assets/images/{card.art_id}.jpg", "wb") as file:
+    shutil.copyfileobj(BytesIO(load), file)
+    # sup.log(collected = card.art_id)
 
 
 def fetch_card_url(card: dict) -> str:
@@ -72,21 +74,15 @@ def fetch_card_url(card: dict) -> str:
   return out["fullurl"]
 
 
-async def async_save_cards(data: dict) -> list[Card]:
-  total = len(data)
-  cards = [link.dict_to_card(each) for each in data]
-  valid = len(cards)
-  sup.log(action = f"loaded {valid}/{total} cards")
-
+async def async_save_card_arts(arts: Iterable[CardArt]) -> Iterable[Card]:
   sup.log(action = "collecting tasks...")
+
   async with aiohttp.ClientSession() as ctx:
     tasks = []
 
-    for card in cards:
-      task = asyncio.create_task(async_fetch_card_art(ctx, card))
+    for art in arts:
+      task = asyncio.create_task(async_save_card_art(ctx, art))
       tasks.append(task)
     
     for card in tqdm(asyncio.as_completed(tasks), total = len(tasks)):
       await card
-  
-  sql.update_monsters_data(cards)

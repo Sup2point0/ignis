@@ -31,27 +31,29 @@ def save(cards: Iterable[Card]):
     cnx.commit()
 
 
-def load(table: Card, constraints: list[Callable]) -> Iterable[Card]:
+def load(table: Card, constraints: Iterable[Callable] = []) -> Iterable[Card]:
+  '''Load rows from a `table` with `constraints`.'''
+
   with Session(ENGINE) as cnx:
-    query = sqla.scalars(table)
+    query = sqla.select(table)
     for constraint in constraints:
       query = query.where(constraint())
     
-    out = cnx.execute(query)
+    out = cnx.scalars(query)
     out = out.all()
 
   return out
 
 
-def load_card_arts(constraints) -> Iterable[CardArt]:
-  '''Load `CardArt` obejects from the database alongside the cards they represent.'''
+def load_card_arts(constraints: Iterable[Callable] = []) -> Iterable[CardArt]:
+  '''Load `CardArt` objects from the database alongside the cards they represent.'''
 
   with Session(ENGINE) as cnx:
-    query = sqla.scalars(CardArt).where(CardArt.card_id == Card.card_id)
+    query = sqla.select(CardArt).where(CardArt.card_id == Card.card_id)
     for constraint in constraints:
       query = query.where(constraint())
     
-    out = cnx.execute(query)
+    out = cnx.scalars(query)
     out = out.all()
 
   return out
