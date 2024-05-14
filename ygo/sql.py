@@ -9,7 +9,7 @@ from typing import Iterable, Callable
 import sqlalchemy as sqla
 from sqlalchemy.orm import Session
 
-from .classes import Card, CardArt
+from .classes import Card, MonsterCard, CardArt
 
 
 ROUTE = "../assets/data/cards-data-v2.db"
@@ -37,7 +37,7 @@ def load(table: Card, constraints: Iterable[Callable] = []) -> Iterable[Card]:
   with Session(ENGINE) as cnx:
     query = sqla.select(table)
     for constraint in constraints:
-      query = query.where(constraint())
+      query = query.where(constraint)
     
     out = cnx.scalars(query)
     out = out.all()
@@ -45,15 +45,16 @@ def load(table: Card, constraints: Iterable[Callable] = []) -> Iterable[Card]:
   return out
 
 
-def load_card_arts(constraints: Iterable[Callable] = []) -> Iterable[CardArt]:
-  '''Load `CardArt` objects from the database alongside the cards they represent.'''
+def load_monster_arts(constraints: Iterable[Callable] = []) -> Iterable[CardArt]:
+  '''Load `CardArt` objects from the database alongside the `MonsterCard`s they represent.'''
 
   with Session(ENGINE) as cnx:
-    query = sqla.select(CardArt).where(CardArt.card_id == Card.card_id)
+    query = sqla.select(CardArt, MonsterCard).join(CardArt, CardArt.monster_id == MonsterCard.card_id)
     for constraint in constraints:
-      query = query.where(constraint())
+      query = query.where(constraint)
     
-    out = cnx.scalars(query)
+    # out = cnx.scalars(query)
+    out = cnx.execute(query)
     out = out.all()
 
   return out

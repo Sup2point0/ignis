@@ -29,7 +29,10 @@ class MonsterCard(Card):
   is_pend: Mp[bool]
 
   def __repr__(self):
-    return f"Card(id = {self.card_id} | name = {self.name} | type = {self.card_type} | info = {self.race}/{self.attribute.upper()}/Lv{self.level}/ATK {self.attack}/DEF {self.defense})"
+    return f"MonsterCard(id = {self.card_id} | name = {self.name})"
+
+  def __str__(self):
+    return f"Monster(id = {self.card_id} | name = {self.name} | type = {self.card_type} | info = {self.race}/{self.attribute.upper()}/Lv{self.level}/ATK {self.attack}/DEF {self.defense})"
 
   @ staticmethod
   def from_json(data: dict) -> tuple[MonsterCard, CardArt]:

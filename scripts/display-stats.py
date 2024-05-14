@@ -2,9 +2,7 @@ import suptools as sup
 
 
 def script():
-  '''
-  Script for visualising the distributions of card stats.
-  '''
+  '''Visualise the distributions of card stats.'''
 
   from stats import Visual
 
