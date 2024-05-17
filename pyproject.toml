@@ -11,3 +11,12 @@ dependencies = [
   "keras",
 ]
 keywords = []
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = [
+  "tests"
+]
+python_files = [
+  "pytest-*.py",
+]
