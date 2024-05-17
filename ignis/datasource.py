@@ -3,15 +3,17 @@ Implements the `DataSource` class for sourcing data from the database.
 '''
 
 import math
+import pathlib
 from typing import Iterable
 
 import numpy as np
 from tensorflow import keras
 import keras.utils
-from skimage.io import imread
+from matplotlib.image import imread
 from skimage.transform import resize
 
 import suptools as sup
+import config
 import ygo
 from ygo import Card, CardArt
 
@@ -19,7 +21,7 @@ from ygo import Card, CardArt
 class DataSource(keras.utils.Sequence):
   '''Sources data from the database for training and testing the Ignis.'''
 
-  SOURCE = "../.assets/images/"
+  SOURCE = pathlib.Path(config.ROOT, "assets/images/")
 
   def __init__(self,
     data: list[tuple[CardArt, Card]],
@@ -52,15 +54,16 @@ class DataSource(keras.utils.Sequence):
     indexes = self.indexes[start:stop]
 
     # x data
-    arts = [
-      resize(
-        imread(f"{self.ROUTE}{row[0].art_id}.jpg"),
-        self.resize
-      )
+    arts = (
+      self._try_load_(f"{row[0].art_id}.jpg")
       for row in self.data[start:stop]
       # for idx in indexes
       # for row in self.data[idx]
-    ]
+    )
+    images = np.array([
+      resize(each, self.resize)
+      for each in arts if each is not False
+    ])
 
     # y data
     features = np.array([
@@ -76,3 +79,14 @@ class DataSource(keras.utils.Sequence):
     
     if self.shuffle:
       np.random.shuffle(self.indexes)
+
+  def _try_load_(self, filename: str) -> np.ndarray | bool:
+    '''Try to load an image from local storage.
+    
+    If an error occurs, return `False` instead.
+    '''
+
+    try:
+      return imread(self.SOURCE.joinpath(filename))
+    except:
+      return False

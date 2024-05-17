@@ -10,7 +10,8 @@ from ignis import DataSource as DS
 def test_load():
   data = ygo.sql.load_monster_arts([ygo.MonsterCard.attribute == "DARK"])[:69]
   ds = DS(data, "race", 26)
-  sup.log(datasource = ds)
+  sup.log(len = len(ds))
+  sup.log(ds[0])
 
 
 if __name__ == "__main__":
