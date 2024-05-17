@@ -60,7 +60,7 @@ class DataSource(keras.utils.Sequence):
       for row in self.data[start:stop]
       # for idx in indexes
       # for row in self.data[idx]
-    ])
+    ]
 
     # y data
     features = np.array([
