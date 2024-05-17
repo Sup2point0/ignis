@@ -72,7 +72,7 @@ class DataSource(keras.utils.Sequence):
       self.FEATURES[self.feature][getattr(row[1], self.feature).casefold()]
       for row in self.data[start:stop]
     ])
-    labels = keras.utils.to_categorical(features, num_features = self.features)
+    labels = keras.utils.to_categorical(features, num_classes = self.features)
 
     return images, labels
 
