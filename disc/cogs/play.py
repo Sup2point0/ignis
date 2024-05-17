@@ -14,6 +14,7 @@ from nextcord import ui, ButtonStyle
 from nextcord.ui import Modal, button
 from nextcord.ext import commands
 
+import config
 import ygo
 from .. import dyna
 from ..resources import colours
@@ -23,7 +24,7 @@ from .error import ExceptionResponse
 class Play(commands.Cog):
   '''Commands involving playing games.'''
 
-  ROUTE = pathlib.Path(__file__).absolute().parents[2].joinpath("assets/data")
+  SOURCE = config.ROOT / "assets/data"
 
   def __init__(self, bot):
     self.bot = bot
@@ -110,7 +111,7 @@ class Play(commands.Cog):
   def pick_ygordle_word(self, source: str):
     '''Pick a random word from a given word list name.'''
 
-    path = Play.ROUTE.joinpath(f"{source}.txt")
+    path = Play.SOURCE / f"{source}.txt"
 
     with open(path) as file:
       return random.choice([line.strip() for line in file])
