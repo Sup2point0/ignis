@@ -1,0 +1,30 @@
+{
+  "race": {
+    "fish": 0,
+    "fiend": 1,
+    "creator-god": 2,
+    "dinosaur": 3,
+    "illusion": 4,
+    "winged beast": 5,
+    "dragon": 6,
+    "zombie": 7,
+    "beast-warrior": 8,
+    "reptile": 9,
+    "plant": 10,
+    "cyberse": 11,
+    "rock": 12,
+    "psychic": 13,
+    "thunder": 14,
+    "fairy": 15,
+    "pyro": 16,
+    "beast": 17,
+    "wyrm": 18,
+    "aqua": 19,
+    "divine-beast": 20,
+    "machine": 21,
+    "insect": 22,
+    "spellcaster": 23,
+    "warrior": 24,
+    "sea serpent": 25
+  }
+}
