@@ -11,6 +11,7 @@ sqlalchemy
 tensorflow
 keras
 skimage
+pillow
 matplotlib
 
 nextcord
