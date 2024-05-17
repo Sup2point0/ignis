@@ -10,6 +10,8 @@ python-Levenshtein
 sqlalchemy
 tensorflow
 keras
+skimage
 matplotlib
+
 nextcord
 PyGithub
