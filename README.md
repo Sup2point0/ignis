@@ -2,7 +2,12 @@
 
 ![ignis-title](assets/title.png)
 
-A series of related projects involving the [*Yu-Gi-Oh!*<sup>↗</sup>](https://yugipedia.com) card game, including asynchronous API requests, database querying, machine learning, and a Discord bot!
+A series of related projects involving the [*Yu-Gi-Oh!*<sup>↗</sup>](https://yugipedia.com) card game, including:
+- Asynchronous API requests
+- SQL database management
+- Machine learning through convolutional neural networks
+- Statistics visualisation
+- A multi-purpose Discord bot to interact with the rest
 
 
 <br>
@@ -12,11 +17,11 @@ A series of related projects involving the [*Yu-Gi-Oh!*<sup>↗</sup>](https://y
 
 | folder | libraries | notes |
 | :----- | :-------- | :---- |
-| `ygo` | [`aiohttp`](https://docs.aiohttp.org/en/stable/) `sqlite3` | Interfaces for asynchronously accessing the [YGOPRODECK API<sup>↗</sup>](~), saving data to a database, and querying it with SQL. Bear in mind *Yu-Gi-Oh* has 13,000+ cards, so this was quite the effort. |
+| `ygo` | [`aiohttp`](https://docs.aiohttp.org/en/stable) [`sqlalchemy`](https://www.sqlalchemy.org) | Interfaces for asynchronously accessing the [YGOPRODECK API<sup>↗</sup>](https://ygoprodeck.com/api-guide), saving data to a database, and querying it with SQL. Bear in mind *Yu-Gi-Oh* has 13,000+ cards, so this was quite the effort. |
 | `stats` | [`matplotlib`](https://matplotlib.org) | Visualising the statistics of card properties. |
-| `ignis` | [`tensorflow`](https://www.tensorflow.org) [`keras`](https://keras.io) | Machine learning models in the form of convolutional neural networks, for predicting a card’s properties from its art. This was the original intention of this project, which everything else was built around. |
-| `disc` | [`nextcord`](https://docs.nextcord.dev/en/stable/) | A Discord bot to provide convenient access to the other projects. |
-| `tests` | [`pytest`](https://docs.pytest.org/en/8.0.x/) | A couple of unit tests cuz I felt like it. (Nowhere near even 20% code coverage) |
+| `ignis` | [`tensorflow`](https://www.tensorflow.org) [`keras`](https://keras.io) | Machine learning models through convolutional neural networks, for predicting a card’s properties from its art. This was the original intention of this project, which everything else was built around. |
+| `disc` | [`nextcord`](https://docs.nextcord.dev/en/stable) | A Discord bot to provide convenient access to the other projects. |
+| `tests` | [`pytest`](https://docs.pytest.org/en/8.0.x) | A couple of unit tests cuz I felt like it. (Nowhere near even 20% code coverage) |
 | `scripts` | | Code files that are manually executed for specific purposes. |
 | `assets` | | Data and image files, mostly untracked.[^assets-untrack] |
 | `suptools` | | A submodule containing my [suptools<sup>↗</sup>](https://github.com/Sup2point0/suptools) repo, with all the utility functions I need. |
