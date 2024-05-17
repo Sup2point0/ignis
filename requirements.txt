@@ -1,18 +1,18 @@
 python-dotenv
 tqdm
-pytest
+pytest==8.2.0
 
 requests
 aiohttp
 fuzzywuzzy
-python-Levenshtein
+python-Levenshtein==0.25.1
 
 sqlalchemy
-tensorflow
-keras
+tensorflow==2.16.1
+keras==3.3.3
 skimage
 pillow
 matplotlib
 
-nextcord
-PyGithub
+nextcord==2.6.0
+PyGithub==2.3.0
