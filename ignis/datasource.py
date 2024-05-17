@@ -2,6 +2,7 @@
 Implements the `DataSource` class for sourcing data from the database.
 '''
 
+import json
 import math
 import pathlib
 from typing import Iterable
@@ -22,18 +23,19 @@ class DataSource(keras.utils.Sequence):
   '''Sources data from the database for training and testing the Ignis.'''
 
   SOURCE = pathlib.Path(config.ROOT, "assets/images/")
+  FEATURES = {}
 
   def __init__(self,
     data: list[tuple[CardArt, Card]],
     feature: str,
-    classes: int,
+    features: int,
     batchsize = 32,
     resize = (300, 300),
     shuffle = True,
   ):
     self.data = data
     self.feature = feature
-    self.classes = classes
+    self.features = features
 
     self.points = len(data)
     self.indexes = np.arange(self.points)
@@ -67,12 +69,12 @@ class DataSource(keras.utils.Sequence):
 
     # y data
     features = np.array([
-      getattr(row[1], self.feature)
+      self.FEATURES[self.feature][getattr(row[1], self.feature).casefold()]
       for row in self.data[start:stop]
     ])
-    labels = keras.utils.to_categorical(features, num_classes = self.classes)
+    labels = keras.utils.to_categorical(features, num_features = self.features)
 
-    return arts, labels
+    return images, labels
 
   def on_epoch_end(self):
     '''Update indices after epochs.'''
@@ -87,6 +89,10 @@ class DataSource(keras.utils.Sequence):
     '''
 
     try:
-      return imread(self.SOURCE.joinpath(filename))
+      return imread(self.SOURCE / filename)
     except:
       return False
+
+
+with open(config.ROOT / "assets/data/ignis-features.json", "r") as file:
+  DataSource.FEATURES = json.load(file)

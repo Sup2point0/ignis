@@ -12,7 +12,7 @@ def script():
   data = ygo.sql.load(ygo.MonsterCard)
   features = set(card.race for card in data)
 
-  with open(config.ROOT / "assets/data/ignis-classes.json", "r+") as file:
+  with open(config.ROOT / "assets/data/ignis-features.json", "r+") as file:
     data = json.load(file)
     data["race"] = {feature: i for i, feature in enumerate(features)}
     file.seek(0)
