@@ -64,9 +64,10 @@ class DataSource(keras.utils.Sequence):
     indexes = self.indexes[start:stop]
 
     # x data
+    self.failed = set()
     arts = (
-      self._try_load_(f"{row[0].art_id}.jpg")
-      for row in self.data[start:stop]
+      self._try_load_(i, f"{row[0].art_id}.jpg")
+      for i, row in enumerate(self.data[start:stop])
       # for idx in indexes
       # for row in self.data[idx]
     )
@@ -78,10 +79,12 @@ class DataSource(keras.utils.Sequence):
     # y data
     features = np.array([
       self.FEATURES[self.feature][getattr(row[1], self.feature).casefold()]
-      for row in self.data[start:stop]
+      for i, row in enumerate(self.data[start:stop])
+      if i not in self.failed
     ])
     labels = keras.utils.to_categorical(features, num_classes = self.features)
 
+    sup.log(index = index)
     return images, labels
 
   def on_epoch_end(self):
@@ -90,7 +93,7 @@ class DataSource(keras.utils.Sequence):
     if self.shuffle:
       np.random.shuffle(self.indexes)
 
-  def _try_load_(self, filename: str) -> np.ndarray | bool:
+  def _try_load_(self, index: int, filename: str) -> np.ndarray | bool:
     '''Try to load an image from local storage.
     
     If an error occurs, return `False` instead.
@@ -99,6 +102,7 @@ class DataSource(keras.utils.Sequence):
     try:
       return imread(self.SOURCE / filename)
     except:
+      self.failed.add(index)
       return False
 
 

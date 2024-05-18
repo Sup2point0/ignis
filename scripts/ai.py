@@ -12,7 +12,7 @@ def script():
   ai.summon()
   ai.model.summary()
 
-  data = ygo.sql.load_monster_arts()
+  data = ygo.sql.load_monster_arts()[:200]
   ds = DataSource(data, "attribute", 7)
 
   sup.log(act = "training network...")
