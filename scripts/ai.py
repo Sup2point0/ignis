@@ -10,6 +10,7 @@ def script():
 
   ai = Ai("Ai")
   ai.summon()
+  ai.model.summary()
 
   data = ygo.sql.load_monster_arts()
   ds = DataSource(data, "attribute", 7)

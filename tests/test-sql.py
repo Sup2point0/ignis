@@ -29,5 +29,10 @@ def test_load_monster_arts():
   assert all(each[1].attribute == "DARK" for each in data)
 
 
+def test_load_multiple_arts():
+  data = ygo.sql.load_monster_arts([ygo.MonsterCard.card_id == 46986414])
+  assert len(data) > 1
+
+
 if __name__ == "__main__":
   sup.run(test_load_monster_cards)

@@ -69,6 +69,7 @@ class Ignis:
       epochs = epochs or Ignis.defaults.epochs,
       verbose = 2,
       # validation_split = 0.1,
+      shuffle = False,
     )
 
   def save(self):
