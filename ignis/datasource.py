@@ -86,7 +86,7 @@ class DataSource(keras.utils.Sequence):
     ])
     labels = keras.utils.to_categorical(features, num_classes = self.features)
 
-    sup.log(index = f"{index} - {start}~{stop}")
+    sup.log(index = f"{index} - {start}~{stop} | loaded = {len(images)}, {len(labels)}")
     return images, labels
 
   def on_epoch_end(self):
