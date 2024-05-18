@@ -5,7 +5,6 @@ Implements the `Ignis` base class for Ignis to derive from.
 # import tensorflow as tf
 from tensorflow import keras
 from keras import layers
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 import suptools as sup
 import ygo
@@ -53,24 +52,23 @@ class Ignis:
     self.model = keras.Model(root, network)
     
     self.rate = rate or Ignis.defaults.rate
-    self.epochs = epochs or Ignis.defaults.epochs
 
-  def activate(self, data):
+  def activate(self, data, epochs = None):
     '''Train the network.'''
 
     if self.model is None:
       raise ValueError("network nonexistent!")
 
     self.model.compile(
-      loss = "categorical_crossentropy",
       optimizer = keras.optimizers.RMSprop(learning_rate = self.rate),
-      metrics = ["acc"],
+      loss = "categorical_crossentropy",
+      metrics = ["accuracy"],
     )
 
-    self.model.fit(*data,
-      epochs = self.epochs,
-      # validation_split = 0.1,
+    self.model.fit(data,
+      epochs = epochs or Ignis.defaults.epochs,
       verbose = 2,
+      # validation_split = 0.1,
     )
 
   def save(self):
@@ -95,33 +93,3 @@ class Ignis:
     '''Use the network on given data.'''
 
     raise NotImplementedError()
-  
-  @ staticmethod
-  def materials():
-    '''Load card art images with their labels.'''
-
-    query = '''attribute = "WATER" or attribute = "FIRE"'''
-    cards = ygo.sql.load_monsters_data(query)
-
-    x = (
-      keras.utils.img_to_array(
-        ygo.link.bytes_to_image(card["art"])
-      )
-      for card in cards
-    )
-
-    y = (card["attribute"] for card in cards)
-
-    return x, y
-
-    # source = (ImageDataGenerator(rescale = 1/255)
-    #   .flow_from_dataframe()
-    # )
-
-    # self.data["training"] = training.flow_from_dataframe(
-    #   cards,
-    #   # directory = "../assets/images/",
-    #   target_size = (624, 624),
-    #   batch_size = 42,
-    #   class_mode = "categorical",
-    # )

@@ -29,18 +29,26 @@ class DataSource(keras.utils.Sequence):
     data: list[tuple[CardArt, Card]],
     feature: str,
     features: int,
+    batches: int = None,
     batchsize = 32,
-    resize = (300, 300),
+    resize = (600, 600),
     shuffle = True,
+    **kwargs,
   ):
+    super().__init__(**kwargs)
+
     self.data = data
     self.feature = feature
     self.features = features
 
     self.points = len(data)
     self.indexes = np.arange(self.points)
-    self.batchsize = batchsize
-    self.batches = math.floor(self.points / batchsize)
+    if batches:
+      self.batches = batches
+      self.batchsize = math.floor(self.points / self.batches)
+    else:
+      self.batchsize = batchsize
+      self.batches = math.floor(self.points / batchsize)
 
     self.resize = resize
     self.shuffle = shuffle

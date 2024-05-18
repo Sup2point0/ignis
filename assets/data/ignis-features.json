@@ -26,5 +26,14 @@
     "spellcaster": 23,
     "warrior": 24,
     "sea serpent": 25
+  },
+  "attribute": {
+    "wind": 0,
+    "water": 1,
+    "earth": 2,
+    "divine": 3,
+    "light": 4,
+    "fire": 5,
+    "dark": 6
   }
 }

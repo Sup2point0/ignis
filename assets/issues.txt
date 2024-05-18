@@ -1,0 +1,2 @@
+logits and labels must be broadcastable: logits_size=[31,7] labels_size=[32,7]
+         [[{{node compile_loss/categorical_crossentropy/softmax_cross_entropy_with_logits}}]] [Op:__inference_one_step_on_iterator_1045]
