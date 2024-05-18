@@ -7,7 +7,7 @@ import ygo
 from ignis import DataSource as DS
 
 
-def test_load():
+def test_load_single():
   data = ygo.sql.load_monster_arts([ygo.MonsterCard.attribute == "DARK"])[:69]
   ds = DS(data, "race", 26)
   assert len(ds) == 2
@@ -19,5 +19,12 @@ def test_load():
   assert len(batch[1]) == 32
 
 
+def test_load_all():
+  data = ygo.sql.load_monster_arts()
+  ds = DS(data, "race", 26)
+  for i in range(len(ds)):
+    sup.log(row = ds[i])
+
+
 if __name__ == "__main__":
-  sup.run(test_load)
+  sup.run(test_load_all)

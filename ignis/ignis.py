@@ -90,7 +90,7 @@ class Ignis:
       self.model = keras.models.model_from_json(file.read())
       self.model.load_weights(self.path + ".h5")
 
-  def declare(self, data):
+  def declare(self, *args, **kwargs):
     '''Use the network on given data.'''
 
-    raise NotImplementedError()
+    self.model.predict_classes(*args, **kwargs)

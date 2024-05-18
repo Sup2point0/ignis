@@ -10,7 +10,8 @@ from typing import Iterable
 import numpy as np
 from tensorflow import keras
 import keras.utils
-from matplotlib.image import imread
+# from matplotlib.image import imread
+from skimage.io import imread
 from skimage.transform import resize
 
 import suptools as sup
@@ -56,6 +57,7 @@ class DataSource(keras.utils.Sequence):
   def __len__(self):
     return self.batches
 
+  @ sup.vitals(view = True)
   def __getitem__(self, index):
     '''Generate a single batch of data.'''
   
@@ -84,7 +86,7 @@ class DataSource(keras.utils.Sequence):
     ])
     labels = keras.utils.to_categorical(features, num_classes = self.features)
 
-    sup.log(index = index)
+    sup.log(index = f"{index} - {start}~{stop}")
     return images, labels
 
   def on_epoch_end(self):
@@ -93,6 +95,7 @@ class DataSource(keras.utils.Sequence):
     if self.shuffle:
       np.random.shuffle(self.indexes)
 
+  @ sup.vitals(view = True)
   def _try_load_(self, index: int, filename: str) -> np.ndarray | bool:
     '''Try to load an image from local storage.
     
