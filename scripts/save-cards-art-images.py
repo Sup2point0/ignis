@@ -2,7 +2,7 @@ import suptools as sup
 
 
 def script():
-  '''Fetch the card arts from the YGOPRODECK API and save them to local memory.'''
+  '''Asynchronously fetch the card arts from the YGOPRODECK API and save them to local storage.'''
 
   import asyncio
 
