@@ -48,6 +48,8 @@ async def async_save_card_art(ctx: aiohttp.ClientSession, card: CardArt, **kwarg
   url = f"https://images.ygoprodeck.com/images/cards_cropped/{card.art_id}.jpg"
 
   async with ctx.get(url, **kwargs) as response:
+    if response.status != 200:
+      return
     load = await response.read()
 
   with open(f"../assets/images/{card.art_id}.jpg", "wb") as file:
