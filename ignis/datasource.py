@@ -8,9 +8,7 @@ import pathlib
 from typing import Iterable
 
 import numpy as np
-from tensorflow import keras
 import keras.utils
-# from matplotlib.image import imread
 from skimage.io import imread
 from skimage.transform import resize
 
