@@ -69,6 +69,7 @@ class Ignis:
       verbose = 2,
       # validation_split = 0.1,
       shuffle = False,
+      workers = 8,
     )
 
   def save(self):
