@@ -2,9 +2,8 @@
 Implements the `Ignis` base class for Ignis to derive from.
 '''
 
-# import tensorflow as tf
-from tensorflow import keras
-from keras import layers
+from keras import models, layers, optimizers
+from keras import Model
 
 import suptools as sup
 import ygo
@@ -49,7 +48,7 @@ class Ignis:
     for layer in layers:
       network = layer(network)
 
-    self.model = keras.Model(root, network)
+    self.model = Model(root, network)
     
     self.rate = rate or Ignis.defaults.rate
 
@@ -60,7 +59,7 @@ class Ignis:
       raise ValueError("network nonexistent!")
 
     self.model.compile(
-      optimizer = keras.optimizers.RMSprop(learning_rate = self.rate),
+      optimizer = optimizers.RMSprop(learning_rate = self.rate),
       loss = "categorical_crossentropy",
       metrics = ["accuracy"],
     )
@@ -87,7 +86,7 @@ class Ignis:
     '''Load the model from local files.'''
 
     with open(self.path + ".json", "r") as file:
-      self.model = keras.models.model_from_json(file.read())
+      self.model = models.model_from_json(file.read())
       self.model.load_weights(self.path + ".h5")
 
   def declare(self, *args, **kwargs):

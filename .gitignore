@@ -3,5 +3,6 @@ venv/
 *.db
 .env
 
-assets/images/
 .archive/
+assets/images/
+assets/arrays/

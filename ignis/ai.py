@@ -2,7 +2,6 @@
 Ai, the Ignis for predicting Monster Types and Attributes.
 '''
 
-from tensorflow import keras
 from keras import layers
 
 from .ignis import Ignis
