@@ -1,6 +1,6 @@
-<h1 align="center"> <code> ignis </code> </h1>
-
 ![ignis-title](assets/title.png)
+
+---
 
 A series of related projects involving the [*Yu-Gi-Oh!*<sup>↗</sup>](https://yugipedia.com) card game, including:
 - Asynchronous API requests
