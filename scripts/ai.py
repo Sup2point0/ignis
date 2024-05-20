@@ -15,7 +15,7 @@ def script():
   ai.model.summary()
 
   data = ygo.sql.load_monster_arts()
-  ds = DataSource(data[:300], "attribute", 7)
+  ds = DataSource(data, "attribute", 7)
 
   sup.log(act = "training network...")
   ai.activate(ds, epochs = 4)
