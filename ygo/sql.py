@@ -13,7 +13,7 @@ import config
 from .classes import Card, MonsterCard, CardArt
 
 
-SOURCE = pathlib.Path(config.ROOT, "assets/data/cards-data-v2.db")
+SOURCE = pathlib.Path(config.ROOT, "assets/data/cards-data.db")
 ENGINE = sqla.create_engine(f"sqlite:///{SOURCE}", echo = False)
 
 
