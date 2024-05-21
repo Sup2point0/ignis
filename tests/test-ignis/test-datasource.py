@@ -20,7 +20,7 @@ def test_load_single():
 
 
 def test_load_all():
-  data = ygo.sql.load_monster_arts()[:100]
+  data = ygo.sql.load_monster_arts()[:1000]
   ds = DS(data, "race", 26)
   for i in range(len(ds)):
     row = ds[i]

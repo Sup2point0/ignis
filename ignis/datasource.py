@@ -9,7 +9,7 @@ from typing import Iterable
 
 import numpy as np
 import keras.utils
-from skimage.io import imread
+from cv2 import imread
 from skimage.transform import resize
 
 import suptools as sup
@@ -73,7 +73,7 @@ class DataSource(keras.utils.Sequence):
     )
     images = np.array([
       resize(each, self.resize)
-      for each in arts if each is not False
+      for each in arts if each is not None
     ])
 
     # y data
@@ -100,11 +100,12 @@ class DataSource(keras.utils.Sequence):
     If an error occurs, return `False` instead.
     '''
 
-    try:
-      return imread(self.SOURCE / filename)
-    except:
+    out = imread(str(self.SOURCE / filename))
+
+    if out is None:
       self.failed.add(index)
-      return False
+    
+    return out
 
 
 with open(config.ROOT / "assets/data/ignis-features.json", "r") as file:
