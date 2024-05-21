@@ -5,3 +5,4 @@ venv/
 .archive/
 assets/images/
 assets/arrays/
+*.zip
