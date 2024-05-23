@@ -12,6 +12,7 @@ from nextcord import ui
 from nextcord.ui import View, Modal, button
 from nextcord.ext import commands
 
+import config
 import ygo
 
 
@@ -60,8 +61,8 @@ class Load(commands.Cog):
 
     await ctx.response.defer()
 
-    monsters = ygo.sql.load(ygo.Card, constraints)
-    spelltraps = ygo.sql.load(ygo.SpellTrap, constraints)
+    monsters = ygo.sql.load(ygo.MonsterCard, constraints)
+    spelltraps = ygo.sql.load(ygo.SpellTrapCard, constraints)
     found = (monsters or spelltraps)
 
     if not found:
@@ -107,35 +108,37 @@ class Load(commands.Cog):
     '''load info for a card from the database, searching by name'''
 
     found = await self._find_(ctx, 
-      constraints = f"name = {card}" if card else None,
+      constraints = lambda: ygo.MonsterCard.name == card,
       rand = not card
     )
 
     await self._send_card_details_(ctx, found, art)
 
-  async def _send_card_details_(self, ctx, card, art: bool):
+  async def _send_card_details_(self, ctx, card: ygo.MonsterCard, art: ygo.CardArt):
     '''Send the details or art of a card.'''
 
     if art:
-      await ctx.send(
-        file = disc.File(BytesIO(card["art"]),
-        filename = card["name"] + ".jpg")
-      )
+      with open(config.ROOT / f"assets/images{card.art_id}.jpg") as file:
+        await ctx.send(
+          file = file,
+          filename = card.name + ".jpg",
+        )
 
     else:
       await ctx.send(embed = (
         Embed(
-          title = card["name"],
+          title = card.name,
           url = ygo.api.fetch_card_url(card),
-          colour = Load.colours[card["kind"].lower()],
+          colour = Load.colours[card.kind.lower()],
         )
         # .set_thumbnail(url = disc.File())
-        .add_field(name = "Type", value = card["race"])
-        .add_field(name = "Kind", value = card["kind"])
-        .add_field(name = "Attribute", value = card["attribute"])
-        .add_field(name = "Level", value = card["level"])
-        .add_field(name = "ATK", value = card["attack"])
-        .add_field(name = "DEF", value = card["defense"])
+        .add_field(name = "Password", value = card.card_id)
+        .add_field(name = "Kind", value = card.kind)
+        .add_field(name = "Type", value = card.race)
+        .add_field(name = "Attribute", value = card.attribute)
+        .add_field(name = "Level", value = card.level)
+        .add_field(name = "ATK", value = card.attack)
+        .add_field(name = "DEF", value = card.defense)
         .set_footer(text = "data sourced from the YGOPRODECK API")
       ))
 
