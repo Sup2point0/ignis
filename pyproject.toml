@@ -5,11 +5,6 @@ readme = "README.md"
 authors = [{name = "Sup#2.0"}]
 license = {file = "LICENSE"}
 requires-python = ">= 3.12"
-dependencies = [
-  "aiohttp",
-  "tensorflow",
-  "keras",
-]
 keywords = []
 
 [tool.pytest.ini_options]
@@ -18,5 +13,5 @@ testpaths = [
   "tests"
 ]
 python_files = [
-  "pytest-*.py",
+  "test-*.py",
 ]
